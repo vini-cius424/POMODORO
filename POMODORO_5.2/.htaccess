@@ -1,0 +1,42 @@
+# =====================================================================
+# POMODORO STORE - Reecriture d'URL
+#
+# Ce fichier est lu par Apache avant tout le reste. Il sert une seule
+# chose : faire de front-end/ la racine du site, sans que le mot
+# "front-end" apparaisse jamais dans l'adresse.
+#
+# Le visiteur demande        http://pomodoro/boutique.php
+# Apache sert reellement     front-end/boutique.php
+#
+# POURQUOI : back-end/ doit rester HORS de la racine web. Comme Apache
+# ne sert que ce qui se trouve sous front-end/, les classes, la
+# connexion a la base et les gardes de securite ne sont atteignables
+# par AUCUNE URL - seulement par require() depuis une page PHP.
+#
+# AUTRE METHODE : pointer directement le virtual host sur front-end/
+# (voir le README). Ce fichier sert quand on n'a pas la main sur la
+# configuration d'Apache, par exemple sur un hebergement mutualise.
+# =====================================================================
+
+
+# Active le module de reecriture (mod_rewrite).
+RewriteEngine On
+
+# RewriteCond = la condition a remplir pour que la regle s'applique.
+# %{REQUEST_URI} est l'adresse demandee, et le "!" signifie "ne contient
+# pas". On ne reecrit donc QUE si l'adresse ne contient pas deja
+# "front-end/".
+#
+# Sans cette condition, la regle s'appliquerait a son propre resultat :
+# /boutique.php -> /front-end/boutique.php -> /front-end/front-end/...
+# et Apache tournerait en boucle jusqu'a l'erreur 500.
+RewriteCond %{REQUEST_URI} !front-end/
+
+# RewriteRule <ce qu'on cherche> <par quoi on remplace> [options]
+#
+#   ^(.*)$        expression reguliere : ^ = debut, $ = fin, .* = tout.
+#                 Les parentheses CAPTURENT ce qui a ete trouve.
+#   front-end/$1  $1 = le contenu capture par les parentheses ci-dessus.
+#                 "boutique.php" devient "front-end/boutique.php".
+#   [L]           "Last" : on arrete d'examiner les regles suivantes.
+RewriteRule ^(.*)$ front-end/$1 [L]

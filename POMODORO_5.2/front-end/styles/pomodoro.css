@@ -1,0 +1,4810 @@
+/* =====================================================================
+   POMODORO STORE - Feuille de style
+   Couleurs et typographie reprises de la maquette validee.
+   ===================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+/* Les couleurs sont declarees une seule fois ici. Ailleurs on ecrit
+   var(--rouge) : si la charte change, on ne modifie que ce bloc. */
+:root {
+    --creme:  #FAF6EF;   /* fond general              */
+    --encre:  #221E19;   /* texte, panneau sombre     */
+    --rouge:  #D6402B;   /* accent Pomodoro           */
+    --pierre: #EAE2D0;   /* fond de vignette          */
+    --rose:   #F3DED8;   /* rose poudre               */
+    --taupe:  #756E61;   /* texte secondaire (contraste 5:1 mini sur fond clair) */
+    --ligne:  #DCD3C0;   /* bordures                  */
+    --saumon: #E9968B;   /* accent rose saumon, header/pied uniquement */
+}
+
+/* Reserve toujours la place de la barre de defilement verticale : sans
+   ca, un onglet court (Mot de passe) sans scrollbar et un onglet long
+   (Commandes) avec scrollbar ne font pas la meme largeur utile, et tout
+   le contenu centre (dont la barre laterale "Mon compte") se decale de
+   quelques pixels en changeant d'onglet. */
+html {
+    scrollbar-gutter: stable;
+}
+
+/* border-box : la largeur annoncee inclut les marges interieures.
+   Sans ca, un champ en width 100% deborde de son conteneur. */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--encre);
+    background-color: var(--creme);
+    line-height: 1.5;
+
+    /* Colonne pleine hauteur : le pied de page (.pied) est pousse en bas
+       grace a margin-top: auto, meme quand le contenu de la page est court. */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Fond beige de la boutique, meme teinte que les panneaux de l'accueil. */
+.corps-boutique {
+    background-color: var(--pierre);
+}
+
+/* ---------------------------------------------------------------------
+   ECRAN SCINDE : panneau sombre a gauche, formulaire a droite
+   --------------------------------------------------------------------- */
+
+.split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;   /* deux colonnes de largeur egale */
+    min-height: 100vh;
+}
+
+.panneau-sombre {
+    background-color: var(--encre);
+    color: var(--creme);
+    padding: 50px 40px;
+
+    /* En colonne, pour pouvoir coller le bouton de retour tout en bas
+       du panneau (voir .retour plus loin). */
+    display: flex;
+    flex-direction: column;
+}
+
+.panneau-clair {
+    padding: 50px 40px;
+}
+
+/* Sous 900 px de large (telephone, petite tablette), les deux colonnes
+   se replient l'une sous l'autre. Besoin metier BM-06. */
+@media (max-width: 900px) {
+    .split {
+        grid-template-columns: 1fr;
+    }
+    .panneau-sombre,
+    .panneau-clair {
+        padding: 30px 20px;
+    }
+}
+
+/* --- Panneau sombre --- */
+
+.logo {
+    display: inline-block;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+    font-size: 34px;
+    margin: 0 0 25px 0;
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo-point {
+    color: var(--rouge);
+}
+
+.accroche {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 22px;
+    margin: 0 0 15px 0;
+}
+
+.accroche-texte {
+    color: var(--ligne);
+    margin: 0;
+}
+
+/* --- Onglets --- */
+
+.onglets {
+    border-bottom: 1px solid var(--ligne);
+    margin-bottom: 30px;
+}
+
+.onglet {
+    display: inline-block;
+    padding: 0 0 10px 0;
+    margin-right: 25px;
+    margin-bottom: -1px;          /* fait chevaucher le trait du dessous */
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--taupe);
+    border-bottom: 2px solid transparent;
+}
+
+.onglet-actif {
+    color: var(--encre);
+    border-bottom-color: var(--rouge);
+}
+
+/* --- Titres --- */
+
+.titre {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 30px;
+    margin: 0 0 5px 0;
+}
+
+.sous-titre {
+    color: var(--taupe);
+    margin: 0 0 30px 0;
+}
+
+/* --- Formulaire --- */
+
+.formulaire {
+    max-width: 480px;
+}
+
+.champ {
+    margin-bottom: 18px;
+}
+
+/* Deux champs cote a cote (nom et prenom). */
+.champ-double {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+@media (max-width: 560px) {
+    .champ-double {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--taupe);
+}
+
+.facultatif {
+    text-transform: none;
+    font-weight: normal;
+}
+
+input {
+    width: 100%;
+    padding: 11px 13px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: var(--encre);
+    background-color: #FFFFFF;
+    border: 1px solid var(--ligne);
+    border-radius: 2px;
+}
+
+/* :focus = le champ dans lequel on est en train d'ecrire. */
+input:focus {
+    outline: none;
+    border-color: var(--encre);
+    box-shadow: 0 0 0 3px var(--pierre);
+}
+
+.aide {
+    display: block;
+    margin-top: 5px;
+    font-size: 13px;
+    color: var(--taupe);
+}
+
+/* --- Barre de robustesse du mot de passe (inscription) ---
+   Le remplissage s'allonge et change de couleur avec le niveau, pose en
+   classe sur .force-mdp par javascript/force-mot-de-passe.js. */
+.force-mdp {
+    margin-top: 8px;
+}
+
+.force-mdp-barre {
+    height: 6px;
+    background-color: var(--ligne);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.force-mdp-remplissage {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: 999px;
+    transition: width .3s ease, background-color .3s ease;
+}
+
+.force-mdp-texte {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.force-mdp-niveau-0 .force-mdp-remplissage { width: 25%;  background-color: var(--rouge); }
+.force-mdp-niveau-1 .force-mdp-remplissage { width: 50%;  background-color: #E0892E; }
+.force-mdp-niveau-2 .force-mdp-remplissage { width: 75%;  background-color: #D4B03A; }
+.force-mdp-niveau-3 .force-mdp-remplissage { width: 100%; background-color: #5B7A4B; }
+
+.force-mdp-niveau-0 .force-mdp-texte { color: var(--rouge); }
+.force-mdp-niveau-1 .force-mdp-texte { color: #B8691A; }
+.force-mdp-niveau-2 .force-mdp-texte { color: #8A7219; }
+.force-mdp-niveau-3 .force-mdp-texte { color: #5B7A4B; }
+
+@media (prefers-reduced-motion: reduce) {
+    .force-mdp-remplissage {
+        transition: none;
+    }
+}
+
+/* Sous le champ mot de passe de la connexion, aligne a droite */
+.lien-mot-de-passe-oublie {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    text-align: right;
+    color: var(--taupe);
+}
+
+.lien-mot-de-passe-oublie:hover {
+    color: var(--encre);
+}
+
+.bouton {
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--creme);
+    background-color: var(--rouge);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.bouton:hover {
+    background-color: var(--encre);
+}
+
+.bouton:active {
+    transform: scale(.98);
+}
+
+.bouton:disabled {
+    opacity: .6;
+    cursor: default;
+}
+
+.note-bas {
+    margin-top: 25px;
+    font-size: 14px;
+    color: var(--taupe);
+}
+
+/* ---------------------------------------------------------------------
+   MESSAGES D'ERREUR ET DE CONFIRMATION
+   --------------------------------------------------------------------- */
+
+/* Champ en erreur : bordure rouge. */
+.champ-erreur {
+    border-color: var(--rouge);
+}
+
+/* Message rouge affiche sous le champ concerne. */
+.message-erreur {
+    display: block;
+    margin-top: 5px;
+    font-size: 13px;
+    color: var(--rouge);
+}
+
+/* Encadre en haut du formulaire. */
+.encadre {
+    padding: 15px;
+    margin-bottom: 25px;
+    border-left: 3px solid;
+    border-radius: 2px;
+}
+
+.encadre-succes {
+    background-color: #DCE3D3;
+    border-left-color: #5B7A4B;
+}
+
+.encadre-echec {
+    background-color: var(--rose);
+    border-left-color: var(--rouge);
+}
+
+.encadre p {
+    margin: 0;
+}
+
+.encadre-titre {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+/* ---------------------------------------------------------------------
+   PAGE D'ACCUEIL
+   --------------------------------------------------------------------- */
+
+.entete {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background-color: var(--creme);
+    border-bottom: 1px solid var(--ligne);
+    transition: background-color .3s ease, box-shadow .3s ease, backdrop-filter .3s ease;
+}
+
+/* Etat "compact" : ajoute au <header> par JS des que la page a defile
+   au-dela du seuil (voir entete.js). Fond semi-opaque + flou, hauteur
+   reduite, ombre tres legere. */
+.entete-compacte {
+    background-color: rgba(250, 246, 239, .86);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 18px rgba(34, 30, 25, .06);
+}
+
+/* --- Rangee du haut : hamburger (mobile) | pastilles | logo centre | icones --- */
+
+.entete-topbar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+    padding: 26px 40px;
+    transition: padding .3s ease;
+}
+
+.entete-compacte .entete-topbar {
+    padding: 15px 40px;
+}
+
+.entete-hamburger {
+    display: none;
+}
+
+.entete-pastilles {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.entete-logo {
+    grid-column: 2;
+    text-decoration: none;
+    color: var(--encre);
+    justify-self: center;
+    font-size: 48px;
+    transition: font-size .3s ease;
+}
+
+.entete-compacte .entete-logo {
+    font-size: 36px;
+}
+
+.entete-icones {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+    grid-column: 3;
+}
+
+.entete-lien-texte {
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    text-decoration: none;
+    color: var(--encre);
+    white-space: nowrap;
+    transition: color .25s ease;
+}
+
+.entete-lien-texte:hover {
+    color: var(--saumon);
+}
+
+.entete-icone {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--encre);
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: color .25s ease;
+}
+
+.entete-icone:hover {
+    color: var(--saumon);
+}
+
+.entete-icone svg {
+    width: 21px;
+    height: 21px;
+}
+
+/* --- Rangee du bas : navigation par type, centree --- */
+
+.entete-sousrangee {
+    display: flex;
+    justify-content: center;
+    padding: 0 40px 18px;
+}
+
+.entete-types {
+    display: flex;
+    gap: 30px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+
+.entete-types::-webkit-scrollbar {
+    display: none;
+}
+
+.entete-types a {
+    padding-bottom: 5px;
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--encre);
+    border-bottom: 1px solid transparent;
+    transition: color .25s ease, border-color .25s ease;
+}
+
+.entete-types a:hover,
+.entete-types a.entete-type-actif {
+    color: var(--encre);
+    border-color: var(--saumon);
+}
+
+/* --- Panneau de recherche : glisse sous l'entete --- */
+
+.entete-recherche-panel {
+    overflow: hidden;
+    max-height: 0;
+    background-color: var(--creme);
+    border-bottom: 1px solid transparent;
+    transition: max-height .35s ease, border-color .35s ease;
+}
+
+.entete-recherche-panel.entete-recherche-ouverte {
+    max-height: 90px;
+    border-color: var(--ligne);
+}
+
+.entete-recherche-panel form {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 20px 40px;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity .3s ease .05s, transform .3s ease .05s;
+}
+
+.entete-recherche-panel.entete-recherche-ouverte form {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.entete-recherche-panel svg {
+    width: 18px;
+    height: 18px;
+    color: var(--taupe);
+    flex-shrink: 0;
+}
+
+.entete-recherche-panel input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    border-bottom: 1px solid var(--ligne);
+    padding: 6px 2px;
+    background: transparent;
+    font-family: inherit;
+    font-size: 17px;
+    color: var(--encre);
+    outline: none;
+    transition: border-color .25s ease;
+}
+
+.entete-recherche-panel input:focus {
+    border-color: var(--saumon);
+}
+
+.entete-recherche-fermer {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid var(--ligne);
+    border-radius: 50%;
+    color: var(--encre);
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color .25s ease, color .25s ease;
+}
+
+.entete-recherche-fermer:hover {
+    border-color: var(--saumon);
+    color: var(--saumon);
+}
+
+/* --- Panneau mobile plein ecran : categories, types, compte --- */
+
+.entete-panel-voile {
+    position: fixed;
+    inset: 0;
+    z-index: 299;
+    background-color: rgba(34, 30, 25, .45);
+}
+
+.entete-panel-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 300;
+    width: min(320px, 86vw);
+    overflow-y: auto;
+    background-color: var(--creme);
+    box-shadow: 6px 0 24px rgba(34, 30, 25, .12);
+    transform: translateX(-100%);
+    transition: transform .3s ease;
+}
+
+.entete-panel-mobile.entete-panel-ouvert {
+    transform: translateX(0);
+}
+
+.entete-panel-entete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 22px 18px;
+    border-bottom: 1px solid var(--ligne);
+}
+
+.entete-panel-fermer {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid var(--ligne);
+    border-radius: 50%;
+    font-size: 15px;
+    color: var(--encre);
+    cursor: pointer;
+}
+
+.entete-panel-section {
+    display: flex;
+    flex-direction: column;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--ligne);
+}
+
+.entete-panel-section a {
+    padding: 9px 0;
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--encre);
+}
+
+.entete-panel-section a:hover {
+    color: var(--saumon);
+}
+
+.entete-panel-types a {
+    color: var(--taupe);
+    font-size: 13px;
+    padding: 7px 0;
+}
+
+.entete-panel-compte .entete-lien-texte {
+    padding: 9px 0;
+}
+
+/* --- Repli mobile : hamburger + logo + recherche seulement --- */
+
+@media (max-width: 900px) {
+    .entete-topbar {
+        grid-template-columns: auto 1fr auto;
+        gap: 14px;
+        padding: 16px 18px;
+    }
+
+    .entete-compacte .entete-topbar {
+        padding: 12px 18px;
+    }
+
+    .entete-hamburger {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        grid-column: 1;
+        background: none;
+        border: none;
+        color: var(--encre);
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .entete-hamburger svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .entete-pastilles {
+        display: none;
+    }
+
+    .entete-logo {
+        font-size: 24px;
+    }
+
+    .entete-sousrangee {
+        display: none;
+    }
+
+    .entete-icones {
+        gap: 16px;
+    }
+
+    .entete-masque-mobile {
+        display: none;
+    }
+
+    .entete-recherche-panel form {
+        padding: 16px 18px;
+    }
+}
+
+/* ---------------------------------------------------------------------
+   PIED DE PAGE
+   --------------------------------------------------------------------- */
+
+.pied {
+    margin-top: auto;
+    padding: 40px 40px 20px;
+    background-color: var(--encre);
+    color: #F0EBE3;
+}
+
+.pied-corps {
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.pied-rangee {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr 1fr;
+    gap: 32px;
+    padding-bottom: 28px;
+}
+
+.pied-colonne {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.pied-colonne a,
+.pied-texte {
+    color: #C9C1B6;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color .25s ease, transform .25s ease;
+    width: fit-content;
+}
+
+.pied-colonne a:hover {
+    color: var(--saumon);
+    transform: translateX(2px);
+}
+
+.pied-marque {
+    max-width: 280px;
+    gap: 8px;
+}
+
+.pied-marque .logo {
+    font-size: 32px;
+    text-decoration: none;
+    color: var(--creme);
+}
+
+.pied-slogan {
+    margin: 2px 0 0;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--saumon);
+}
+
+.pied-accroche {
+    margin: 8px 0 4px;
+    color: #C9C1B6;
+    font-size: 13.5px;
+    line-height: 1.7;
+}
+
+.pied-titre {
+    margin: 0 0 3px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--creme);
+}
+
+/* Le titre est un <button> pour porter l'accordeon mobile ; sur desktop
+   il redevient un simple intitule (voir le media query plus bas). */
+button.pied-accordeon-bouton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 0 3px;
+    background: none;
+    border: none;
+    font: inherit;
+    text-align: left;
+    cursor: default;
+}
+
+.pied-accordeon-signe {
+    display: none;
+}
+
+.pied-accordeon-interieur {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Colonne Boutique : les liens s'ecoulent sur 2 colonnes (de haut en
+   bas, puis colonne suivante), ce qui divise sa hauteur par deux.
+   break-inside: avoid empeche un lien d'etre coupe entre deux colonnes. */
+.pied-liens-2-colonnes {
+    display: block;
+    columns: 2;
+    column-gap: 24px;
+}
+
+.pied-liens-2-colonnes a {
+    display: block;
+    margin-bottom: 8px;
+    break-inside: avoid;
+}
+
+/* --- Revelations au scroll (voir pied.js) --- */
+
+.pied-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .7s ease, transform .7s cubic-bezier(.22, 1, .36, 1);
+}
+
+.pied-reveal.pied-en-vue {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.pied-rangee .pied-colonne:nth-child(1) { transition-delay: 0s; }
+.pied-rangee .pied-colonne:nth-child(2) { transition-delay: .08s; }
+.pied-rangee .pied-colonne:nth-child(3) { transition-delay: .16s; }
+.pied-rangee .pied-colonne:nth-child(4) { transition-delay: .24s; }
+
+/* --- Newsletter --- */
+
+.pied-newsletter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 28px;
+    border-radius: 4px;
+    background-color: rgba(240, 235, 227, .06);
+    border: 1px solid rgba(240, 235, 227, .12);
+}
+
+.pied-newsletter-texte h3 {
+    margin: 0 0 2px;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--creme);
+}
+
+.pied-newsletter-texte p {
+    margin: 0;
+    font-size: 13.5px;
+    color: #C9C1B6;
+}
+
+.pied-newsletter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    flex: 0 0 auto;
+}
+
+.pied-newsletter-form input {
+    width: 260px;
+    max-width: 100%;
+    padding: 12px 4px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(240, 235, 227, .35);
+    color: var(--creme);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .25s ease;
+}
+
+.pied-newsletter-form input::placeholder {
+    color: #9A9184;
+}
+
+.pied-newsletter-form input:focus {
+    border-color: var(--saumon);
+}
+
+.pied-newsletter-form button {
+    padding: 0 26px;
+    background: none;
+    border: 1px solid var(--creme);
+    border-radius: 999px;
+    color: var(--creme);
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    cursor: pointer;
+    transition: background-color .25s ease, color .25s ease, border-color .25s ease;
+}
+
+.pied-newsletter-form button:hover {
+    background-color: var(--saumon);
+    border-color: var(--saumon);
+    color: var(--encre);
+}
+
+.pied-newsletter-message {
+    margin: 0;
+    width: 100%;
+    font-size: 13px;
+    color: var(--saumon);
+}
+
+/* --- Bas de page --- */
+
+.pied-bas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(240, 235, 227, .14);
+    font-size: 12.5px;
+    color: #9A9184;
+}
+
+.pied-bas-liens {
+    display: flex;
+    gap: 22px;
+}
+
+.pied-bas-liens a {
+    color: #9A9184;
+    text-decoration: none;
+    transition: color .25s ease;
+}
+
+.pied-bas-liens a:hover {
+    color: var(--saumon);
+}
+
+.pied-paiement {
+    letter-spacing: .02em;
+}
+
+@media (max-width: 900px) {
+    .pied-rangee {
+        grid-template-columns: 1fr 1fr;
+        row-gap: 34px;
+    }
+
+    .pied-marque {
+        grid-column: 1 / -1;
+        max-width: none;
+    }
+}
+
+@media (max-width: 700px) {
+    .pied {
+        padding: 32px 20px 20px;
+    }
+
+    .pied-newsletter {
+        padding: 20px 20px;
+    }
+
+    .pied-rangee {
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding-bottom: 10px;
+    }
+
+    .pied-marque {
+        padding-bottom: 28px;
+        margin-bottom: 6px;
+        border-bottom: 1px solid rgba(240, 235, 227, .14);
+    }
+
+    /* Accordeon : chaque colonne (hors marque) se replie derriere son titre. */
+    .pied-rangee .pied-colonne:not(.pied-marque) {
+        padding: 18px 0;
+        border-bottom: 1px solid rgba(240, 235, 227, .14);
+    }
+
+    button.pied-accordeon-bouton {
+        cursor: pointer;
+    }
+
+    .pied-accordeon-signe {
+        display: inline-block;
+        font-size: 18px;
+        line-height: 1;
+        color: #9A9184;
+    }
+
+    .pied-accordeon-contenu {
+        display: grid;
+        grid-template-rows: 0fr;
+        overflow: hidden;
+        transition: grid-template-rows .3s ease;
+    }
+
+    .pied-accordeon-contenu > * {
+        overflow: hidden;
+    }
+
+    .pied-accordeon-ouvert .pied-accordeon-contenu {
+        grid-template-rows: 1fr;
+    }
+
+    .pied-accordeon-ouvert .pied-accordeon-contenu > * {
+        padding-top: 10px;
+    }
+
+    .pied-accordeon-ouvert .pied-accordeon-signe {
+        transform: rotate(45deg);
+    }
+}
+
+
+.heros {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 90px 20px;
+    text-align: center;
+}
+
+.heros .titre {
+    font-size: 42px;
+}
+
+.heros .sous-titre {
+    font-size: 18px;
+    margin-bottom: 35px;
+}
+
+/* ---------------------------------------------------------------------
+   CATALOGUE
+   --------------------------------------------------------------------- */
+
+.filtres-categorie {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 30px 40px 10px;
+}
+
+.filtre-categorie {
+    padding: 6px 16px;
+    border: 1px solid var(--ligne);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--encre);
+}
+
+.filtre-categorie:hover {
+    border-color: var(--rouge);
+    color: var(--encre);
+}
+
+.filtre-categorie-actif {
+    border-color: var(--encre);
+    background-color: var(--encre);
+    color: var(--creme);
+}
+
+/* ---------------------------------------------------------------------
+   CATALOGUE - filtres (sidebar desktop / panneau mobile)
+   --------------------------------------------------------------------- */
+
+.bouton-filtrer-mobile {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+    padding: 10px 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: var(--encre);
+    color: var(--creme);
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.bouton-filtrer-mobile:hover {
+    background-color: var(--rouge);
+}
+
+.page-catalogue {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 10px 40px 60px;
+}
+
+.sidebar-filtres {
+    flex-shrink: 0;
+    width: 250px;
+    position: sticky;
+    top: 20px;
+}
+
+/* Bouton "Filtrer" cliquable a nouveau pour refermer le panneau : cache
+   la sidebar quel que soit l'ecran (desktop = sidebar fixe, mobile = son
+   propre mecanisme de transform ci-dessous reste par ailleurs inchange). */
+.sidebar-filtres-cachee {
+    display: none;
+}
+
+.sidebar-filtres-entete {
+    display: none;
+}
+
+.filtre-groupe {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--ligne);
+}
+
+.filtre-groupe-titre {
+    margin: 0 0 12px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--taupe);
+}
+
+.filtre-boutons-taille {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filtre-bouton-taille {
+    min-width: 40px;
+    padding: 7px 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    background-color: #FFFFFF;
+    border: 1px solid var(--ligne);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.filtre-bouton-taille:hover {
+    border-color: var(--encre);
+}
+
+.filtre-bouton-taille-actif {
+    color: var(--creme);
+    background-color: var(--encre);
+    border-color: var(--encre);
+}
+
+.filtre-couleurs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filtre-couleurs .couleur-swatch {
+    width: 26px;
+    height: 26px;
+}
+
+.filtre-case {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.filtre-case input {
+    width: auto;
+    accent-color: var(--rouge);
+}
+
+.filtre-case {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.prix-slider {
+    position: relative;
+    height: 4px;
+    margin: 22px 4px 14px;
+    background: none;
+}
+
+.prix-slider-piste {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    border-radius: 999px;
+    background-color: var(--ligne);
+}
+
+.prix-slider-plage {
+    position: absolute;
+    top: 0;
+    height: 4px;
+    border-radius: 999px;
+    background-color: var(--rouge);
+}
+
+.prix-range {
+    position: absolute;
+    top: -8px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    margin: 0;
+    background: none;
+    -webkit-appearance: none;
+    appearance: none;
+    pointer-events: none;
+}
+
+.prix-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    pointer-events: auto;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--encre);
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 0 0 1px var(--ligne);
+    cursor: pointer;
+}
+
+.prix-range::-moz-range-thumb {
+    pointer-events: auto;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: var(--encre);
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 0 0 1px var(--ligne);
+    cursor: pointer;
+}
+
+.prix-range::-webkit-slider-runnable-track,
+.prix-range::-moz-range-track {
+    background: none;
+}
+
+.prix-champs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--taupe);
+}
+
+.prix-champs input {
+    width: 64px;
+    padding: 6px 8px;
+    text-align: center;
+}
+
+.filtre-reinitialiser {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.filtre-afficher-mobile {
+    display: none;
+}
+
+/* ---------------------------------------------------------------------
+   CATALOGUE - zone de resultats
+   --------------------------------------------------------------------- */
+
+.catalogue-contenu {
+    flex: 1;
+    min-width: 0;
+}
+
+.catalogue-barre {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.catalogue-champs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    flex: 1 1 auto;
+}
+
+.catalogue-recherche {
+    flex: 1 1 220px;
+    width: auto;
+}
+
+.catalogue-tri {
+    flex: 0 1 200px;
+    width: auto;
+}
+
+.chips-filtres-actifs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.chips-titre {
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--taupe);
+}
+
+.chip {
+    padding: 5px 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: var(--pierre);
+    border: 1px solid var(--ligne);
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.chip:hover {
+    border-color: var(--rouge);
+    color: var(--rouge);
+}
+
+.chip-reinitialiser {
+    background-color: transparent;
+    color: var(--taupe);
+    text-decoration: underline;
+}
+
+.catalogue-compte {
+    margin: 0 0 14px;
+    font-size: 13px;
+    color: var(--taupe);
+}
+
+#resultats-catalogue {
+    transition: opacity .15s ease;
+}
+
+#resultats-catalogue.catalogue-chargement {
+    opacity: .4;
+    pointer-events: none;
+}
+
+.pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: 20px;
+}
+
+.pagination-lien,
+.pagination-numero {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--encre);
+    border: 1px solid var(--ligne);
+    border-radius: 4px;
+}
+
+.pagination-lien:hover,
+.pagination-numero:hover {
+    border-color: var(--encre);
+}
+
+.pagination-numero-actif {
+    color: var(--creme);
+    background-color: var(--encre);
+    border-color: var(--encre);
+}
+
+.pagination-points {
+    padding: 0 4px;
+    color: var(--taupe);
+}
+
+@media (max-width: 900px) {
+    .voile-filtres {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(34, 30, 25, .45);
+        z-index: 40;
+    }
+
+    .page-catalogue {
+        display: block;
+        padding: 15px 20px 60px;
+    }
+
+    /* Sur mobile, le panneau reste cache par defaut par la translation
+       (pas par sidebar-filtres-cachee, reserve au desktop) : l'ouverture
+       passe par sidebar-filtres-ouverte, geree en JS. */
+    .sidebar-filtres.sidebar-filtres-cachee {
+        display: block;
+    }
+
+    .sidebar-filtres {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(340px, 88vw);
+        overflow-y: auto;
+        padding: 20px;
+        background-color: var(--creme);
+        border-left: 1px solid var(--ligne);
+        z-index: 50;
+        transform: translateX(100%);
+        transition: transform .25s ease;
+    }
+
+    .sidebar-filtres-ouverte {
+        transform: translateX(0);
+    }
+
+    .sidebar-filtres-entete {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+    }
+
+    .sidebar-filtres-titre {
+        margin: 0;
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 22px;
+    }
+
+    .sidebar-filtres-fermer {
+        width: 32px;
+        height: 32px;
+        background: none;
+        border: 1px solid var(--ligne);
+        border-radius: 50%;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .filtre-afficher-mobile {
+        display: block;
+        width: 100%;
+    }
+}
+
+@media (max-width: 560px) {
+    .page-catalogue {
+        padding: 15px 16px 50px;
+    }
+}
+
+.grille-produits {
+    display: grid;
+    /* La largeur minimale des colonnes est soit 220px, soit la largeur
+       exacte d'une colonne sur 4 (avec les 3 espacements deduits) si elle
+       est plus grande : ca empeche d'avoir plus de 4 photos par ligne,
+       meme sur un tres grand ecran. */
+    grid-template-columns: repeat(auto-fill, minmax(max(220px, (100% - 3 * 25px) / 4), 1fr));
+    gap: 25px;
+}
+
+/* Colonne flexible : toutes les cartes d'une rangee ont la meme hauteur
+   (grille), et le formulaire d'ajout est pousse en bas (margin-top: auto
+   sur .carte-produit-ajout). La liste des tailles et le bouton restent
+   ainsi alignes d'une carte a l'autre, meme quand l'une affiche une
+   ligne de plus ("Plus que 3 articles disponibles !"). */
+.carte-produit {
+    display: flex;
+    flex-direction: column;
+    color: var(--encre);
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid var(--ligne);
+}
+
+.carte-produit-lien-image,
+.carte-produit-lien-titre {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.carte-produit .image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background-color: var(--pierre);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.carte-produit .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 85%;
+}
+
+.badge-rupture {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 3px 10px;
+    background-color: var(--encre);
+    color: var(--creme);
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 999px;
+}
+
+.carte-produit-badge-categorie {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 3px 10px;
+    background-color: var(--encre);
+    color: var(--creme);
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 999px;
+}
+
+.carte-produit-fleche {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--ligne);
+    background-color: rgba(255, 255, 255, .92);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: .85;
+    transition: opacity .15s;
+}
+
+.carte-produit-fleche:hover {
+    opacity: 1;
+}
+
+.carte-produit-fleche-gauche {
+    left: 8px;
+}
+
+.carte-produit-fleche-droite {
+    right: 8px;
+}
+
+.carte-produit-fleche:hover {
+    border-color: var(--encre);
+}
+
+.carte-produit-puces {
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.carte-produit-puce {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, .7);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .2);
+}
+
+.carte-produit-puce-actif {
+    background-color: #FFFFFF;
+    box-shadow: 0 0 0 1px var(--encre);
+}
+
+.carte-produit-notes {
+    margin: 0 0 4px;
+    font-size: 12px;
+    color: var(--taupe);
+}
+
+.carte-produit-notes .fiche-produit-etoiles {
+    margin-right: 3px;
+}
+
+.carte-produit-prix-promo {
+    margin-right: 6px;
+    color: var(--rouge);
+    font-weight: bold;
+}
+
+.carte-produit-prix-barre {
+    font-size: 12px;
+    font-weight: normal;
+    color: var(--taupe);
+    text-decoration: line-through;
+}
+
+/* "Plus que 2 articles disponibles !" : le stock n'apparait que lorsqu'il
+   en reste tres peu, en rouge Pomodoro pour creer l'urgence (carte
+   produit du catalogue et sous les tailles de la fiche produit). */
+.carte-produit-ajout {
+    margin-top: auto;
+}
+
+.alerte-stock {
+    margin: 2px 0 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--rouge);
+}
+
+.fiche-produit-tailles .alerte-stock {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* --- Ajout rapide au panier depuis la boutique ---
+   Les tailles sont une liste deroulante (style general des select), en
+   plus compact pour tenir dans la carte. */
+.carte-produit-select-taille {
+    margin-bottom: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+}
+
+.carte-produit-ajouter {
+    margin-top: 0;
+    padding: 10px;
+    font-size: 12px;
+}
+
+.carte-produit-message {
+    margin: 8px 0 0;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--rouge);
+}
+
+.carte-produit-message-ok {
+    color: #5B7A4B;
+}
+
+.carte-produit-message a {
+    font-weight: bold;
+    color: var(--encre);
+    white-space: nowrap;
+}
+
+.carte-produit-couleurs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.couleur-swatch {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    border: 1px solid var(--ligne);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.couleur-swatch img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Quand la pastille est un <button> (couleur cliquable), on efface les
+   styles par defaut du navigateur (marge interieure, police) pour qu'elle
+   se comporte exactement comme le <span> decoratif. */
+button.couleur-swatch {
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    background-color: #FFFFFF;
+}
+
+/* "Autres" ne represente pas une couleur precise : des hachures plutot
+   qu'un aplat, pour ne pas laisser croire a une teinte reelle. */
+.couleur-swatch-autre {
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, .5) 0px,
+        rgba(255, 255, 255, .5) 3px,
+        transparent 3px,
+        transparent 6px
+    );
+}
+
+.carte-produit .nom {
+    font-weight: bold;
+    margin: 0 0 3px;
+}
+
+.carte-produit .prix {
+    color: var(--encre);
+    margin: 0;
+}
+
+.catalogue-vide {
+    padding: 60px 40px;
+    text-align: center;
+    color: var(--taupe);
+}
+
+.page-client {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 50px 40px 80px;
+}
+
+/* --- Pages d'information (FAQ, livraison, CGV...) --- */
+
+.page-info {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 60px 40px 100px;
+}
+
+.page-info h2 {
+    margin: 38px 0 12px;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 21px;
+    color: var(--encre);
+}
+
+.page-info h2:first-of-type {
+    margin-top: 8px;
+}
+
+.page-info p,
+.page-info li {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--taupe);
+}
+
+.page-info ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.page-info table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0 20px;
+}
+
+.page-info th,
+.page-info td {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid var(--ligne);
+    color: var(--taupe);
+}
+
+.page-info th {
+    color: var(--encre);
+    font-weight: bold;
+}
+
+.page-info details {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--ligne);
+}
+
+.page-info summary {
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--encre);
+    list-style: none;
+}
+
+.page-info summary::-webkit-details-marker {
+    display: none;
+}
+
+.page-info summary::after {
+    content: '+';
+    float: right;
+    color: var(--saumon);
+}
+
+.page-info details[open] summary::after {
+    content: '−';
+}
+
+.page-info summary + p {
+    margin-top: 12px;
+}
+
+/* ---------------------------------------------------------------------
+   FICHE PRODUIT
+   --------------------------------------------------------------------- */
+
+.fiche-produit {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 40px 80px;
+}
+
+.fiche-produit-fil {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.fiche-produit-corps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+}
+
+.fiche-produit-image-principale {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    background-color: var(--pierre);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.fiche-produit-image-principale img,
+.fiche-produit-image-vide {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fiche-produit-fleche {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--ligne);
+    background-color: rgba(255, 255, 255, .92);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.fiche-produit-fleche-gauche {
+    left: 14px;
+}
+
+.fiche-produit-fleche-droite {
+    right: 14px;
+}
+
+.fiche-produit-fleche:hover {
+    border-color: var(--encre);
+}
+
+.fiche-produit-vignettes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.fiche-produit-vignette {
+    width: 64px;
+    height: 80px;
+    padding: 0;
+    background: none;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.fiche-produit-vignette img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fiche-produit-vignette-active {
+    border-color: var(--rouge);
+}
+
+.fiche-produit-categorie {
+    margin: 0 0 6px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--taupe);
+}
+
+.fiche-produit-nom {
+    margin: 0 0 10px;
+    font-size: 32px;
+}
+
+.fiche-produit-notes {
+    margin: 0 0 18px;
+    font-size: 14px;
+    color: var(--taupe);
+}
+
+.fiche-produit-etoiles {
+    color: #C89B3C;
+    letter-spacing: 1px;
+}
+
+.fiche-produit-prix {
+    margin: 0 0 20px;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 28px;
+}
+
+.fiche-produit-prix-promo {
+    margin-right: 10px;
+    color: var(--rouge);
+}
+
+.fiche-produit-prix-barre {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    color: var(--taupe);
+    text-decoration: line-through;
+}
+
+.fiche-produit-description {
+    margin-bottom: 24px;
+    line-height: 1.7;
+}
+
+.fiche-produit-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--taupe);
+}
+
+.fiche-produit-couleurs,
+.fiche-produit-tailles {
+    margin-bottom: 22px;
+}
+
+.fiche-produit-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.couleur-swatch-bouton {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.couleur-swatch-selectionne {
+    outline: 2px solid var(--encre);
+    outline-offset: 2px;
+}
+
+.fiche-produit-boutons-taille {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.fiche-produit-bouton-taille {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    padding: 9px 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: var(--taupe);
+    background-color: #FFFFFF;
+    border: 1px solid var(--ligne);
+    border-radius: 4px;
+}
+
+/* --- Ajout au panier (fiche produit) ---
+   Le bouton radio est cache : c'est l'etiquette entiere qui se clique.
+   :has(input:checked) = "l'etiquette qui contient le radio coche". */
+.fiche-produit-bouton-taille {
+    cursor: pointer;
+}
+
+.fiche-produit-bouton-taille input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
+.fiche-produit-bouton-taille:has(input:checked) {
+    color: var(--creme);
+    background-color: var(--encre);
+    border-color: var(--encre);
+}
+
+.fiche-produit-ajouter {
+    margin-top: 20px;
+}
+
+/* --- Compteur du panier (en-tete) ---
+   Pastille rouge posee en haut a droite de l'icone : position absolute
+   fonctionne car .entete-icone est en position relative. */
+.entete-compteur {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 18px;
+    text-align: center;
+    color: #FFFFFF;
+    background-color: var(--rouge);
+    border-radius: 9px;
+}
+
+.fiche-produit-avis {
+    max-width: 700px;
+    margin: 60px auto 0;
+}
+
+.avis-carte {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--ligne);
+}
+
+.avis-auteur {
+    margin: 4px 0 8px;
+    font-size: 13px;
+    color: var(--taupe);
+}
+
+/* --- Depot d'un avis par le client connecte --- */
+
+/* L'avis de l'auteur, visible de lui seul tant qu'il n'est pas valide. */
+.avis-carte-mien {
+    padding: 16px;
+    background-color: var(--creme);
+    border: 1px solid var(--ligne);
+    border-bottom: 1px solid var(--ligne);
+    border-radius: 4px;
+    margin-bottom: 24px;
+}
+
+.avis-invite {
+    padding: 16px 0;
+    color: var(--taupe);
+}
+
+/* Bouton "Voir tout" : replie les avis au-dela du dernier depose. */
+.avis-voir-tout {
+    margin-top: 18px;
+}
+
+.avis-formulaire {
+    max-width: 100%;
+    padding: 20px;
+    margin-bottom: 30px;
+    background-color: var(--creme);
+    border: 1px solid var(--ligne);
+    border-radius: 4px;
+}
+
+.avis-formulaire-titre {
+    margin: 0 0 16px;
+    font-size: 17px;
+}
+
+/* Le fieldset apporte ses propres bordures et marges : on les retire. */
+.avis-note-champ {
+    margin: 0 0 18px;
+    padding: 0;
+    border: none;
+}
+
+.avis-note-champ legend {
+    padding: 0;
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--taupe);
+}
+
+/* Les cinq radios sont ecrites de 5 a 1 dans le HTML, et row-reverse les
+   remet a l'endroit a l'ecran. C'est ce qui permet a "input:checked ~ label"
+   de colorer l'etoile choisie ET toutes celles de gauche : en CSS, on ne
+   peut selectionner que les freres SUIVANTS, jamais les precedents. */
+.avis-etoiles {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 2px;
+}
+
+.avis-etoiles label {
+    margin: 0;
+    font-size: 30px;
+    line-height: 1;
+    color: var(--ligne);
+    cursor: pointer;
+    transition: color .15s;
+}
+
+.avis-etoiles input:checked ~ label,
+.avis-etoiles label:hover,
+.avis-etoiles label:hover ~ label {
+    color: var(--rouge);
+}
+
+/* Le clavier doit voir ou il est : la radio est cachee visuellement mais
+   reste focusable (classe visuellement-cache), on marque donc son label. */
+.avis-etoiles input:focus-visible + label {
+    outline: 2px solid var(--rouge);
+    outline-offset: 2px;
+}
+
+textarea {
+    width: 100%;
+    padding: 11px 13px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: var(--encre);
+    background-color: #FFFFFF;
+    border: 1px solid var(--ligne);
+    border-radius: 2px;
+    resize: vertical;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--encre);
+}
+
+@media (max-width: 800px) {
+    .fiche-produit {
+        padding: 20px 20px 60px;
+    }
+    .fiche-produit-corps {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+/* ---------------------------------------------------------------------
+   ADMINISTRATION - structure generale (barre laterale + contenu)
+   --------------------------------------------------------------------- */
+
+.admin-shell {
+    display: flex;
+    align-items: stretch;
+    min-height: 100vh;
+}
+
+/* --- Barre laterale --- */
+
+.admin-sidebar {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    width: 252px;
+    padding: 28px 22px;
+    background-color: var(--encre);
+    color: var(--creme);
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.admin-sidebar-entete {
+    margin-bottom: 28px;
+}
+
+.admin-sidebar .logo {
+    font-size: 25px;
+    color: var(--creme);
+}
+
+.admin-sidebar-souslogo {
+    margin: 4px 0 0;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--taupe);
+}
+
+.admin-nav-toggle {
+    display: none;
+}
+
+.admin-nav {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 4px;
+}
+
+.admin-nav-lien {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    text-decoration: none;
+    color: var(--ligne);
+}
+
+.admin-nav-lien svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.admin-nav-lien:hover {
+    color: var(--creme);
+    background-color: rgba(250, 246, 239, .08);
+}
+
+.admin-nav-lien-actif,
+.admin-nav-lien-actif:hover {
+    color: var(--creme);
+    background-color: var(--rouge);
+}
+
+
+.admin-nav-bas {
+    margin-top: auto;
+    padding-top: 14px;
+}
+
+.admin-nav-separateur {
+    margin: 0 0 16px;
+    border: none;
+    border-top: 1px solid rgba(250, 246, 239, .14);
+}
+
+.admin-compte {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding: 0 14px;
+}
+
+.admin-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: var(--rouge);
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.admin-compte-nom {
+    margin: 0;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.admin-compte-role {
+    margin: 0;
+    font-size: 11px;
+    color: var(--taupe);
+}
+
+.admin-deconnexion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ligne);
+    border: 1px solid rgba(250, 246, 239, .18);
+}
+
+.admin-deconnexion:hover {
+    color: var(--creme);
+    border-color: var(--creme);
+}
+
+.admin-deconnexion svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* --- Contenu principal --- */
+
+.admin-main {
+    flex: 1;
+    min-width: 0;
+    padding: 40px 46px 80px;
+}
+
+.admin-topbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+}
+
+.admin-topbar .titre {
+    font-size: 27px;
+}
+
+.admin-fil {
+    display: inline-block;
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--taupe);
+    text-decoration: none;
+}
+
+.admin-fil:hover {
+    color: var(--rouge);
+}
+
+/* --- Cartes de statistiques (tableau de bord) --- */
+
+.stats-grille {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 18px;
+    margin-bottom: 34px;
+}
+
+.stat-carte {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 20px 22px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--ligne);
+    border-left: 3px solid var(--ligne);
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(34, 30, 25, .04);
+}
+
+.stat-carte .stat-valeur {
+    display: block;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 1.1;
+}
+
+.stat-carte .stat-label {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--taupe);
+}
+
+.stat-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--pierre);
+    color: var(--rouge);
+}
+
+.stat-icone svg {
+    width: 20px;
+    height: 20px;
+}
+
+.stat-carte-alerte {
+    border-left-color: var(--rouge);
+}
+
+.stat-carte-alerte .stat-icone {
+    background-color: var(--rose);
+}
+
+/* --- Cartes generiques et raccourcis --- */
+
+.carte-admin {
+    padding: 26px 28px;
+    margin-bottom: 28px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--ligne);
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(34, 30, 25, .04);
+}
+
+.carte-admin-titre {
+    margin: 0 0 4px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.carte-admin-soustitre {
+    margin: 0 0 20px;
+    font-size: 13px;
+    color: var(--taupe);
+}
+
+.raccourcis-admin {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.raccourci-admin {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1 1 220px;
+    padding: 16px 18px;
+    text-decoration: none;
+    color: var(--encre);
+    background-color: var(--creme);
+    border: 1px solid var(--ligne);
+    border-radius: 8px;
+}
+
+.raccourci-admin:hover {
+    border-color: var(--rouge);
+}
+
+.raccourci-admin svg {
+    width: 22px;
+    height: 22px;
+    color: var(--rouge);
+    flex-shrink: 0;
+}
+
+.raccourci-admin-titre {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.raccourci-admin-texte {
+    display: block;
+    font-size: 12px;
+    color: var(--taupe);
+}
+
+.bouton-avec-icone {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bouton-avec-icone svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* --- Tableaux --- */
+
+.formulaire-admin {
+    max-width: 480px;
+}
+
+.tableau-scroll {
+    overflow-x: auto;
+}
+
+.tableau-admin {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tableau-admin th,
+.tableau-admin td {
+    text-align: left;
+    padding: 13px 12px;
+    border-bottom: 1px solid var(--ligne);
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.tableau-admin th {
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--taupe);
+    white-space: nowrap;
+}
+
+.tableau-admin tbody tr:hover {
+    background-color: var(--creme);
+}
+
+.tableau-admin td.actions {
+    white-space: nowrap;
+}
+
+.tableau-admin td.actions form {
+    display: inline-block;
+    margin: 0;
+}
+
+.tableau-vide {
+    padding: 16px 12px !important;
+    text-align: center;
+    color: var(--taupe);
+}
+
+.vignette-produit {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Le formulaire ne doit rien changer a la mise en page : sans display
+   contents, ce <form> bloc casserait l'alignement flex de la vignette. */
+.vignette-produit-photo {
+    display: contents;
+}
+
+.visuellement-cache:focus-visible + .miniature {
+    outline: 2px solid var(--rouge);
+    outline-offset: 2px;
+}
+
+.vignette-produit .miniature {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    background-color: var(--pierre);
+    border-radius: 6px;
+    overflow: hidden;
+    color: var(--taupe);
+    cursor: pointer;
+}
+
+.vignette-produit .miniature:hover {
+    box-shadow: 0 0 0 2px var(--rouge);
+}
+
+.vignette-produit .miniature svg {
+    width: 18px;
+    height: 18px;
+}
+
+.vignette-produit .miniature img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.vignette-produit .nom-produit {
+    display: block;
+    font-weight: bold;
+}
+
+.vignette-produit .ref-produit {
+    display: block;
+    font-size: 12px;
+    color: var(--taupe);
+}
+
+.lien-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 13px;
+    margin: 2px 6px 2px 0;
+    background-color: var(--creme);
+    border: 1px solid var(--ligne);
+    border-radius: 999px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--encre);
+    cursor: pointer;
+}
+
+.lien-action:hover {
+    border-color: var(--encre);
+    text-decoration: none;
+}
+
+.lien-action:disabled {
+    opacity: .4;
+    cursor: default;
+}
+
+.lien-action:disabled:hover {
+    border-color: var(--ligne);
+}
+
+.vignette-ordre {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.vignette-ordre form {
+    margin: 0;
+}
+
+.vignette-ordre .lien-action {
+    margin: 0;
+    padding: 5px 10px;
+}
+
+.lien-action-danger {
+    color: var(--rouge);
+}
+
+.lien-action-danger:hover {
+    border-color: var(--rouge);
+    background-color: var(--rose);
+}
+
+.bouton-secondaire {
+    display: inline-block;
+    padding: 11px 22px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--encre);
+    background-color: transparent;
+    border: 1px solid var(--encre);
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.bouton-secondaire:hover {
+    background-color: var(--encre);
+    color: var(--creme);
+}
+
+.bouton-secondaire:active,
+.lien-action:active {
+    transform: scale(.98);
+}
+
+.champ-case label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: normal;
+    text-transform: none;
+}
+
+select {
+    width: 100%;
+    padding: 11px 13px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: var(--encre);
+    background-color: #FFFFFF;
+    border: 1px solid var(--ligne);
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+/* select n'avait pas d'etat :focus propre et retombait sur le contour
+   bleu par defaut du navigateur, incoherent avec les champs texte. */
+select:focus {
+    outline: none;
+    border-color: var(--encre);
+    box-shadow: 0 0 0 3px var(--pierre);
+}
+
+/* ---------------------------------------------------------------------
+   FOCUS CLAVIER
+   Un seul anneau, coherent avec la charte, pose sur tout ce qui est
+   cliquable au clavier (Tab). :focus-visible ne se declenche pas au clic
+   souris, seulement a la navigation clavier.
+   --------------------------------------------------------------------- */
+
+a:focus-visible,
+button:focus-visible,
+.admin-nav-lien:focus-visible,
+.admin-deconnexion:focus-visible,
+.raccourci-admin:focus-visible,
+.lien-action:focus-visible,
+.bouton:focus-visible,
+.bouton-secondaire:focus-visible,
+.filtre-categorie:focus-visible,
+.lien-reinitialiser:focus-visible,
+.cellule-stock-supprimer:focus-visible,
+.admin-fil:focus-visible {
+    outline: 2px solid var(--rouge);
+    outline-offset: 2px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge-oui {
+    background-color: #DCE3D3;
+    color: #5B7A4B;
+}
+
+.badge-non {
+    background-color: var(--rose);
+    color: var(--rouge);
+}
+
+/* La carte elle-meme doit epouser la largeur de son contenu : sinon,
+   une fois la grille rendue compacte, elle nage dans une carte bien plus
+   large qu'elle et laisse un grand vide a droite. Le sous-titre est bride
+   pour ne pas etre lui-meme le plus large element (il forcerait alors la
+   carte a s'etirer a sa place). */
+.carte-admin-ajustee {
+    width: fit-content;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.carte-admin-ajustee .carte-admin-soustitre {
+    max-width: 640px;
+}
+
+/* .formulaire-admin est bride a 480px. Sans limite sur la carte qui le
+   contient, le cadre blanc s'etire sur toute la largeur de .admin-main et
+   laisse plus de 500px de vide a droite des champs. 536px = les 480px du
+   formulaire + les 28px de padding de chaque cote de la carte. */
+.carte-admin-formulaire {
+    max-width: 536px;
+}
+
+/* .tableau-admin est en width:100% par defaut (pense pour les listes avec
+   miniature + nom + actions). Ici chaque cellule ne contient qu'un petit
+   champ de stock : etiree a 100%, la grille se retrouve avec d'enormes
+   vides entre des colonnes minuscules. On revient a la largeur naturelle
+   du contenu, et chaque colonne taille est bridee a une largeur compacte
+   fixe pour que les cases restent alignees en grille reguliere. */
+.grille-variantes {
+    width: auto;
+}
+
+.grille-variantes th,
+.grille-variantes td {
+    text-align: center;
+}
+
+.grille-variantes th:not(.grille-variantes-entete-couleur),
+.grille-variantes td.cellule-stock {
+    width: 92px;
+}
+
+.grille-variantes-entete-couleur {
+    text-align: left;
+}
+
+/* Span interne, pas la cellule elle-meme : une <th> passee en display:flex
+   sort du calcul de hauteur de ligne du tableau et desaligne la bordure
+   du bas par rapport aux autres cellules de la meme ligne. */
+/* Grille a colonnes fixes plutot que flex : en flex, l'icone photo colle
+   directement apres le texte et se retrouve a une position horizontale
+   differente selon la longueur du nom de couleur (NOIR vs BEIGE). Ici,
+   chaque colonne garde toujours la meme largeur, meme quand le bouton de
+   suppression (4e colonne) est absent. */
+.grille-variantes-couleur {
+    display: inline-grid;
+    grid-template-columns: 22px 58px 20px 20px;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.cellule-stock-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.cellule-stock input[type="number"] {
+    width: 60px;
+    padding: 6px 8px;
+    text-align: center;
+}
+
+/* Masque visuellement un champ tout en le gardant atteignable au clavier
+   et lisible par un lecteur d'ecran - contrairement a l'attribut hidden,
+   qui retire completement l'element de l'ordre de tabulation. */
+.visuellement-cache {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.visuellement-cache:focus-visible + .grille-variantes-photo-label {
+    outline: 2px solid var(--rouge);
+    outline-offset: 2px;
+}
+
+.grille-variantes-photo-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: var(--taupe);
+    background-color: #FFFFFF;
+    border: 1px solid var(--ligne);
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.grille-variantes-photo-label svg {
+    width: 12px;
+    height: 12px;
+}
+
+.grille-variantes-photo-label:hover {
+    color: var(--rouge);
+    border-color: var(--rouge);
+}
+
+.cellule-stock-supprimer {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    line-height: 1;
+    font-size: 14px;
+    color: var(--taupe);
+    background-color: #FFFFFF;
+    border: 1px solid var(--ligne);
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.cellule-stock-supprimer:hover {
+    color: var(--rouge);
+    border-color: var(--rouge);
+}
+
+.cellule-stock-rupture {
+    background-color: var(--rose);
+}
+
+/* .bouton est pense pour les formulaires etroits (max-width 480px) :
+   en pleine largeur sur une grille aussi large, il ecrase visuellement
+   le tableau au-dessus. On garde ses couleurs/etats, juste pas l'etirement. */
+.bouton-grille {
+    width: auto;
+    margin-top: 20px;
+    padding: 13px 36px;
+}
+
+.grille-variantes-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.grille-variantes-actions .bouton-grille {
+    margin-top: 0;
+}
+
+.grille-variantes-actions-secondaires {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-left: auto;
+}
+
+.grille-variantes-actions .bouton-secondaire {
+    padding: 10px 20px;
+    font-size: 12px;
+}
+
+.galerie {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 10px 0 30px;
+}
+
+.vignette {
+    width: 150px;
+    border: 1px solid var(--ligne);
+    border-radius: 6px;
+    padding: 10px;
+    text-align: center;
+    background-color: #FFFFFF;
+}
+
+.vignette img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.vignette form {
+    margin: 4px 0 0;
+}
+
+.badge-principale {
+    display: inline-block;
+    background-color: var(--rouge);
+    color: var(--creme);
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.badge-couleur-image {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--taupe);
+}
+
+/* --- Repli mobile de la barre laterale --- */
+
+@media (max-width: 900px) {
+    .admin-shell {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .admin-sidebar {
+        position: relative;
+        top: auto;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+        padding: 18px 20px;
+    }
+
+    .admin-sidebar-entete {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 0;
+    }
+
+    .admin-sidebar-souslogo {
+        display: none;
+    }
+
+    .admin-nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 14px;
+        background: transparent;
+        border: 1px solid rgba(250, 246, 239, .3);
+        border-radius: 6px;
+        color: var(--creme);
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+
+    .admin-nav-toggle svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .admin-nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin-top: 0;
+        padding: 8px 16px 18px;
+        background-color: var(--encre);
+        border-top: 1px solid rgba(250, 246, 239, .14);
+        z-index: 30;
+    }
+
+    .admin-nav-ouvert {
+        display: flex;
+    }
+
+    .admin-main {
+        padding: 26px 20px 60px;
+    }
+
+    .admin-topbar {
+        flex-direction: column;
+    }
+
+    .tableau-admin td.actions {
+        white-space: normal;
+    }
+}
+
+@media (max-width: 560px) {
+    .heros {
+        padding: 60px 20px;
+    }
+    .filtres-categorie {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .admin-main {
+        padding: 22px 16px 50px;
+    }
+    .stats-grille {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ---------------------------------------------------------------------
+   BOUTON DE RETOUR VERS LA BOUTIQUE
+   En bas a gauche du panneau sombre. Rond, de la couleur du fond sur
+   lequel il est pose, avec un contour beige.
+   --------------------------------------------------------------------- */
+
+.retour {
+    width: 38px;
+    height: 38px;
+
+    /* line-height egale a la hauteur moins les deux bordures : la fleche
+       se retrouve centree verticalement. text-align s'occupe du reste. */
+    line-height: 36px;
+    text-align: center;
+
+    font-size: 17px;
+    text-decoration: none;
+    color: var(--creme);
+
+    background-color: var(--encre);   /* la meme couleur que le fond */
+    border: 1px solid var(--ligne);   /* le contour beige */
+    border-radius: 50%;               /* 50% d'un carre = un cercle */
+
+    /* Le panneau sombre est en colonne : une marge haute automatique
+       avale tout l'espace libre au-dessus et pousse le bouton en bas. */
+    margin-top: auto;
+
+    /* Sans ca, le bouton s'etirerait sur toute la largeur du panneau. */
+    align-self: flex-start;
+}
+
+.retour:hover {
+    border-color: var(--creme);
+}
+
+/* ---------------------------------------------------------------------
+   FICHE PRODUIT
+   --------------------------------------------------------------------- */
+
+.fiche {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+@media (max-width: 900px) {
+    .fiche {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 25px 20px;
+    }
+}
+
+/* --- Galerie --- */
+
+.fiche-image-principale {
+    background-color: var(--pierre);
+    border-radius: 3px;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;         /* garde la meme proportion qu'au catalogue */
+}
+
+.fiche-image-principale img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;           /* remplit le cadre sans deformer la photo */
+    display: block;
+}
+
+.fiche-image-vide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--taupe);
+    font-size: 14px;
+}
+
+.fiche-vignettes {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.fiche-vignette {
+    width: 72px;
+    height: 90px;
+    background-color: var(--pierre);
+    border: 1px solid var(--ligne);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.fiche-vignette img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --- Colonne d'informations --- */
+
+.fiche-retour {
+    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--taupe);
+}
+
+.fiche-retour:hover {
+    color: var(--rouge);
+}
+
+.fiche-categorie {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--taupe);
+}
+
+.fiche-prix {
+    font-family: Consolas, "Courier New", monospace;   /* prix en chasse fixe */
+    font-size: 24px;
+    margin: 8px 0 20px 0;
+}
+
+.fiche-description {
+    color: var(--taupe);
+    margin: 0 0 28px 0;
+}
+
+/* --- Selecteurs --- */
+
+.fiche-choix {
+    margin-bottom: 22px;
+}
+
+.fiche-choix-titre {
+    margin: 0 0 8px 0;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--taupe);
+}
+
+.fiche-choix-valeur {
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--encre);
+}
+
+.fiche-couleurs,
+.fiche-tailles {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* La pastille de couleur choisie recoit un anneau autour d'elle. */
+.couleur-choisie {
+    box-shadow: 0 0 0 2px var(--creme), 0 0 0 4px var(--encre);
+}
+
+.fiche-taille {
+    min-width: 46px;
+    padding: 9px 12px;
+    text-align: center;
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--encre);
+    background-color: #FFFFFF;
+    border: 1px solid var(--ligne);
+    border-radius: 3px;
+}
+
+.fiche-taille:hover {
+    border-color: var(--encre);
+}
+
+.fiche-taille-choisie {
+    color: var(--creme);
+    background-color: var(--encre);
+    border-color: var(--encre);
+}
+
+/* Taille indisponible dans la couleur choisie : barree et grisee.
+   Le lien reste cliquable, pour pouvoir revenir en arriere. */
+.fiche-taille-epuisee {
+    color: var(--taupe);
+    text-decoration: line-through;
+    background-color: var(--pierre);
+}
+
+/* --- Disponibilite --- */
+
+.fiche-stock {
+    margin: 26px 0 0 0;
+    padding: 11px 14px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.fiche-stock-ok {
+    background-color: #DCE3D3;
+}
+
+.fiche-stock-faible {
+    background-color: var(--pierre);
+}
+
+.fiche-stock-rupture {
+    background-color: var(--rose);
+    color: var(--rouge);
+}
+
+.fiche-stock-attente {
+    background-color: var(--pierre);
+    color: var(--taupe);
+    font-weight: normal;
+}
+
+.fiche-note {
+    margin: 14px 0 0 0;
+    font-size: 13px;
+    color: var(--taupe);
+}
+
+.fiche-reference {
+    margin: 26px 0 0 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--ligne);
+    font-size: 12px;
+    color: var(--taupe);
+}
+
+/* ---------------------------------------------------------------------
+   PAGINATION DU CATALOGUE
+   --------------------------------------------------------------------- */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 40px 40px 0;
+}
+
+.pagination-lien {
+    min-width: 38px;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--encre);
+    background-color: #FFFFFF;
+    border: 1px solid var(--ligne);
+    border-radius: 3px;
+}
+
+.pagination-lien:hover {
+    border-color: var(--encre);
+}
+
+/* La page courante n'est pas un lien : on ne clique pas sur ou l'on est. */
+.pagination-actuelle {
+    color: var(--creme);
+    background-color: var(--encre);
+    border-color: var(--encre);
+    font-weight: bold;
+}
+
+.pagination-total {
+    margin: 18px 40px 50px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--taupe);
+}
+
+/* --- Page du panier --- */
+
+.page-panier {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 50px 40px 80px;
+}
+
+.panier-article {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+/* object-fit: cover : la photo remplit le carre sans etre deformee */
+.panier-photo {
+    display: block;
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    background-color: var(--pierre);
+    border-radius: 4px;
+}
+
+.panier-detail {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--taupe);
+}
+
+.panier-quantite {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.panier-quantite input {
+    width: 64px;
+    padding: 8px;
+    border: 1px solid var(--ligne);
+    border-radius: 4px;
+}
+
+.panier-total {
+    margin-top: 24px;
+    font-size: 20px;
+    text-align: right;
+}
+
+.panier-article a {
+    font-weight: bold;
+    color: var(--encre);
+    text-decoration: none;
+}
+
+.panier-article a:hover {
+    color: var(--rouge);
+}
+
+/* --- Cartes du tableau de bord cliquables ---
+   Les cartes sont des liens <a> : on retire le soulignement et la
+   couleur bleue par defaut, et on ajoute un effet au survol. */
+a.stat-carte {
+    color: inherit;
+    text-decoration: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+a.stat-carte:hover {
+    border-color: var(--encre);
+    box-shadow: 0 4px 12px rgba(34, 30, 25, .08);
+}
+
+/* --- Pastille "Rupture" dans la liste des produits (admin) ---
+   Reprend le style .lien-action ; seule l'icone doit etre dimensionnee. */
+.lien-action svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Derniere colonne de la liste des produits : l'alerte est collee a droite.
+   width: 1% = la colonne ne prend que la place de l'icone. */
+.tableau-admin td.colonne-rupture {
+    width: 1%;
+    text-align: right;
+}
+
+/* Pastille ronde qui ne contient qu'une icone */
+.lien-action-icone {
+    padding: 7px;
+    margin-right: 0;
+}
+
+/* --- Mon compte : une section par formulaire --- */
+.compte-section {
+    margin: 32px 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--ligne);
+}
+
+.compte-section-titre {
+    margin: 0 0 16px;
+    font-size: 20px;
+}
+
+/* Bouton d'action definitive (fermeture du compte) : rouge */
+.bouton-danger {
+    background-color: var(--rouge);
+    border-color: var(--rouge);
+}
+
+/* Boutons "Modifier" et "Retirer" du panier : plus petits que les
+   boutons secondaires normaux. ".tableau-panier .bouton-secondaire" ne
+   vise que les boutons DANS le tableau du panier. */
+.tableau-panier .bouton-secondaire {
+    padding: 6px 12px;
+    font-size: 11px;
+}
+
+/* --- Passer commande : choix du mode de livraison ---
+   Chaque option est un <label> qui contient son bouton radio : cliquer
+   n'importe ou sur la ligne coche le bouton. :has(input:checked)
+   met en evidence l'option choisie (meme idee que les tailles). */
+.livraison-choix {
+    display: grid;
+    gap: 10px;
+    max-width: 480px;
+}
+
+.livraison-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    margin: 0;
+    font-size: 15px;
+    font-weight: normal;
+    text-transform: none;
+    color: var(--encre);
+    background-color: #FFFFFF;
+    border: 1px solid var(--ligne);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Le bouton radio garde sa taille normale (input est en width: 100%) */
+.livraison-option input {
+    width: auto;
+    margin: 0;
+    accent-color: var(--rouge);
+}
+
+/* margin-left: auto pousse le prix tout a droite */
+.livraison-option strong {
+    margin-left: auto;
+}
+
+.livraison-option:has(input:checked) {
+    border-color: var(--encre);
+    box-shadow: 0 0 0 1px var(--encre);
+}
+
+.commande-total {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--ligne);
+    text-align: right;
+}
+
+.commande-total p {
+    margin: 4px 0;
+}
+
+/* "dont TVA 8.1 % : 2.62 CHF", sous le total : information, pas un
+   montant a payer en plus, d'ou le texte plus petit et plus discret. */
+.ligne-tva {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--taupe);
+    text-align: right;
+}
+
+.commande-confirmer {
+    max-width: 320px;
+}
+
+/* Bouton "Commander" sous le total du panier, aligne a droite */
+.panier-commander {
+    text-align: right;
+}
+
+/* .bouton est prevu pour <button> : sur un lien <a>, on retire le
+   soulignement et on le fait se comporter comme un bloc centre. */
+a.commande-confirmer {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* Grille des variantes : case grisee quand la taille unique et les
+   autres tailles s'excluent (voir le script de produit-variantes.php).
+   :disabled = champ desactive, impossible a remplir. */
+.cellule-stock input:disabled {
+    background-color: var(--pierre);
+    border-color: var(--pierre);
+    cursor: not-allowed;
+    opacity: .45;
+}
+
+/* --- Admin : liste des commandes (tache 22) ---
+   Les onglets reprennent le style des filtres de categorie du catalogue
+   (.filtre-categorie) ; seul le conteneur change de marges. */
+.filtres-commandes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Recherche + tri au-dessus de la liste des commandes (admin).
+   flex-wrap : sur un ecran etroit, les elements passent a la ligne. */
+.commandes-outils {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.commandes-recherche {
+    flex: 1 1 260px;
+    width: auto;
+}
+
+.commandes-tri {
+    flex: 0 1 220px;
+    width: auto;
+}
+
+/* En-tete de colonne cliquable pour trier : meme aspect que les autres
+   en-tetes, souligne au survol pour montrer qu'il est cliquable. */
+.tri-colonne {
+    color: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.tri-colonne:hover {
+    color: var(--rouge);
+    text-decoration: underline;
+}
+
+/* Une couleur de pastille par statut de commande.
+   Le nom de la classe est construit en PHP : badge-statut- + statut
+   en minuscules (ex. badge-statut-expediee). */
+.badge-statut-en_attente {
+    background-color: #F4E6C8;
+    color: #8A6414;
+}
+
+.badge-statut-validee,
+.badge-statut-en_preparation {
+    background-color: #D9E4F0;
+    color: #2F5A8A;
+}
+
+.badge-statut-expediee,
+.badge-statut-livree {
+    background-color: #DCE3D3;
+    color: #5B7A4B;
+}
+
+.badge-statut-annulee {
+    background-color: var(--rose);
+    color: var(--rouge);
+}
+
+/* Numero, date, total et statut restent sur une seule ligne
+   (nowrap = pas de retour a la ligne) : le tableau defile plutot
+   que de couper "POM-000003" en deux. */
+.tableau-commandes td {
+    white-space: nowrap;
+}
+
+/* --- Admin : detail d'une commande ---
+   Cartes Client et Livraison cote a cote ; une seule colonne sur
+   telephone (auto-fit + minmax : autant de colonnes de 260px min
+   que la largeur le permet). */
+.commande-detail-infos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.commande-detail-infos p {
+    margin: 4px 0;
+}
+
+.commande-detail-infos a {
+    color: var(--encre);
+}
+
+/* Passer commande : bouton "Modifier le panier" sous le recapitulatif.
+   margin-top vaut la meme chose que la marge du bas de .compte-section
+   (32px) : le bouton est ainsi centre entre la ligne du tableau et la
+   ligne de la section suivante. */
+.commande-modifier-panier {
+    display: flex;
+    justify-content: space-between; /* texte a gauche, bouton a droite */
+    align-items: center;            /* alignes sur la meme hauteur */
+    /* 16px au-dessus (jusqu'au tableau).
+       En dessous, la section suivante impose deja 32px : la marge
+       negative de -16px les ramene a 16px, pour garder le bloc centre. */
+    margin: 16px 0 -16px;
+}
+
+.commande-modifier-panier .bouton-secondaire {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 11px;
+    text-decoration: none;
+}
+
+/* Le texte "D'autres envies ?" reprend le style gris de .panier-detail,
+   sans sa marge du haut qui le decalerait par rapport au bouton. */
+.commande-modifier-panier .panier-detail {
+    margin: 0;
+}
+
+/* ---------------------------------------------------------------------
+   Mon compte : barre laterale + panneau (Commandes, Adresses,
+   Coordonnees, Mot de passe, Fermeture du compte).
+   --------------------------------------------------------------------- */
+
+/* La page compte prend toute la largeur de l'ecran (au lieu des 640px
+   centres de .page-client) : la barre laterale va au bord gauche et le
+   contenu de l'onglet est centre au milieu de la page. */
+.page-compte {
+    max-width: none;
+    margin: 0;
+}
+
+/* Trois colonnes : barre laterale | contenu | colonne vide de la meme
+   largeur que la barre. La colonne vide equilibre la barre laterale,
+   ce qui place le contenu pile au milieu de la page (et pas seulement
+   au milieu de l'espace restant a droite de la barre). */
+.compte-shell {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr) 220px;
+    align-items: start;
+    gap: 36px;
+}
+
+.compte-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.compte-nav-lien {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--taupe);
+    text-decoration: none;
+}
+
+.compte-nav-lien svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.compte-nav-lien:hover {
+    color: var(--encre);
+    background-color: var(--pierre);
+}
+
+.compte-nav-lien-actif,
+.compte-nav-lien-actif:hover {
+    color: var(--creme);
+    background-color: var(--encre);
+}
+
+.compte-nav-separateur {
+    margin: 10px 0;
+    border: none;
+    border-top: 1px solid var(--ligne);
+}
+
+/* Largeur limitee et centree dans sa colonne : les formulaires restent
+   lisibles au lieu de s'etirer sur tout l'ecran. */
+.compte-contenu {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+/* Un seul .compte-section est affiche a la fois (l'onglet actif) : pas
+   de bordure de separation a lui donner, contrairement a une page ou
+   plusieurs sections s'enchainent. Il garde juste un espace sous le
+   titre "Bonjour ...". */
+.compte-section-premiere {
+    margin-top: 28px;
+    padding-top: 0;
+    border-top: none;
+}
+
+.compte-section-entete {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.compte-section-entete .compte-section-titre {
+    margin: 0;
+}
+
+/* Ecran moyen : plus assez de place pour la colonne vide d'equilibre,
+   on la retire et le contenu prend tout l'espace a droite de la barre. */
+@media (max-width: 1100px) {
+    .compte-shell {
+        grid-template-columns: 220px minmax(0, 1fr);
+    }
+}
+
+/* En dessous de 720px, la barre laterale passe au-dessus du contenu :
+   les onglets s'affichent en ligne, sur plusieurs rangees si besoin. */
+@media (max-width: 720px) {
+    .compte-shell {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .compte-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .compte-nav-separateur {
+        display: none;
+    }
+}
+
+/* --- Mes adresses --- */
+
+.grille-adresses {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.adresse-carte {
+    position: relative;
+    padding: 16px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--ligne);
+    border-radius: 4px;
+}
+
+.adresse-rue {
+    margin: 0 0 6px;
+    padding-right: 70px; /* laisse la place au badge "Par defaut" */
+    font-weight: bold;
+    color: var(--encre);
+}
+
+.adresse-badge-defaut {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+.adresse-carte-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+}
+
+.adresse-carte-actions form {
+    margin: 0;
+}
+
+/* --- Admin : gestion d'une commande (tache 23) ---
+   Liste des statuts + Enregistrer a gauche, Annuler a droite. */
+.commande-gestion {
+    margin-bottom: 20px;
+}
+
+.commande-gestion-actions {
+    display: flex;
+    flex-wrap: wrap;               /* sur telephone, Annuler passe dessous */
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+}
+
+.commande-gestion-statut {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.commande-gestion-statut select {
+    width: auto;
+    min-width: 200px;
+}
+
+/* Bouton secondaire rouge : action definitive (annulation) */
+.bouton-secondaire-danger {
+    color: var(--rouge);
+    border-color: var(--rouge);
+}
+
+.bouton-secondaire-danger:hover {
+    background-color: var(--rose);
+}
+
+/* Passer commande : espace entre les adresses enregistrees et les
+   champs de la nouvelle adresse (quand "Autre adresse" est choisie). */
+.livraison-choix + .adresse-nouvelle-champs {
+    margin-top: 20px;
+}
+
+/* Passer commande : largeur FIXE.
+   Le <body> est en display: flex (pour pousser le pied de page en bas) :
+   dans ce cas, un bloc centre avec margin: auto ne prend que la largeur
+   de son contenu. Quand les champs "autre adresse" apparaissaient, le
+   contenu s'elargissait et toute la page changeait de largeur.
+   width: 100% + max-width fixe la largeur une fois pour toutes. */
+.page-commander {
+    width: 100%;
+    max-width: 560px;
+}
+
+/* --- Passer commande : code promo ---
+   Le champ prend la place restante, le bouton "Appliquer" reste a sa
+   taille (flex-shrink: 0 : il ne se tasse jamais). */
+.code-promo {
+    display: flex;
+    gap: 10px;
+    max-width: 420px;
+}
+
+.code-promo input {
+    text-transform: uppercase;
+}
+
+.code-promo .bouton-secondaire {
+    flex-shrink: 0;
+}
+
+.code-promo-astuce {
+    margin: 0 0 12px;
+}
+
+.code-promo-message {
+    margin: 10px 0 0;
+    font-size: 13px;
+    color: var(--rouge);
+}
+
+.code-promo-message-ok {
+    color: #5B7A4B;
+}
+
+/* ---------------------------------------------------------------------
+   Pop-up de bienvenue "-20 % sur votre premiere commande"
+   (morceaux-de-page/pied.php, ouvert par javascript/pied.js).
+   C'est un <dialog> : le navigateur le centre et pose un fond sombre
+   derriere (::backdrop). Tout le contenu est dans .popup-bienvenue-contenu :
+   un clic sur le <dialog> lui-meme = un clic sur le fond, qui ferme.
+   --------------------------------------------------------------------- */
+
+.popup-bienvenue {
+    width: min(420px, calc(100vw - 32px));
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: var(--creme);
+    color: var(--encre);
+    box-shadow: 0 24px 60px rgba(34, 30, 25, .35);
+}
+
+.popup-bienvenue::backdrop {
+    background-color: rgba(34, 30, 25, .55);
+}
+
+.popup-bienvenue[open] {
+    animation: popup-bienvenue-apparition .4s cubic-bezier(.22, 1, .36, 1);
+}
+
+@keyframes popup-bienvenue-apparition {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(.97);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .popup-bienvenue[open] {
+        animation: none;
+    }
+}
+
+.popup-bienvenue-contenu {
+    position: relative;
+}
+
+/* Bandeau sombre du haut, comme l'email POMO20 */
+.popup-bienvenue-haut {
+    padding: 36px 28px 28px;
+    text-align: center;
+    background-color: var(--encre);
+    color: var(--creme);
+}
+
+.popup-bienvenue-accroche {
+    margin: 0 0 10px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--saumon);
+}
+
+.popup-bienvenue-remise {
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 68px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.popup-bienvenue-titre {
+    margin: 10px 0 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: normal;
+}
+
+.popup-bienvenue-bas {
+    padding: 24px 28px 18px;
+    text-align: center;
+}
+
+.popup-bienvenue-texte {
+    margin: 0 0 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--taupe);
+}
+
+/* .bouton est pense pour un <button> : sur un lien <a>, il faut le
+   passer en bloc et retirer le soulignement. */
+.popup-bienvenue-bouton {
+    display: block;
+    margin-top: 0;
+    text-decoration: none;
+}
+
+.popup-bienvenue-lien {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--encre);
+}
+
+.popup-bienvenue-lien:hover {
+    color: var(--rouge);
+}
+
+.popup-bienvenue-non {
+    display: block;
+    margin: 6px auto 0;
+    padding: 4px 8px;
+    background: none;
+    border: none;
+    font: inherit;
+    font-size: 12px;
+    color: var(--taupe);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.popup-bienvenue-non:hover {
+    color: var(--encre);
+}
+
+/* Croix de fermeture, posee sur le bandeau sombre */
+.popup-bienvenue-fermer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    font-size: 26px;
+    line-height: 1;
+    color: var(--creme);
+    cursor: pointer;
+}
+
+.popup-bienvenue-fermer:hover {
+    background-color: rgba(250, 246, 239, .12);
+}
+
+/* Encadre de confirmation avec un lien a droite
+   (fiche produit : "Article ajoute au panier.   Voir le panier ->"). */
+.encadre-avec-lien {
+    display: flex;
+    justify-content: space-between; /* texte a gauche, lien a droite */
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;                /* sur telephone, le lien passe dessous */
+}
+
+.encadre-avec-lien a {
+    font-weight: bold;
+    color: #5B7A4B;                 /* meme vert que la bordure de l'encadre */
+    white-space: nowrap;
+}
+
+.encadre-avec-lien a:hover {
+    color: var(--encre);
+}
+
+/* =====================================================================
+   STATISTIQUES (administration/statistiques.php)
+   Graphiques en HTML/CSS, sans librairie. Une seule serie par graphique,
+   donc une seule couleur de donnee (--rouge, verifiee : contraste >= 3:1
+   sur le fond blanc des cartes) et pas de legende : le titre dit ce qui
+   est trace. Le texte (valeurs, libelles) reste en couleurs de texte,
+   jamais dans la couleur des barres.
+   ===================================================================== */
+
+/* Liste "intitule : valeur" (detail financier, clients). */
+.stats-detail {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 18px;
+    margin: 0;
+}
+
+.stats-detail dt {
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--taupe);
+}
+
+.stats-detail dd {
+    margin: 4px 0 0;
+    font-size: 20px;
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+}
+
+.stats-detail-note {
+    font-size: 13px;
+    font-weight: normal;
+    color: var(--taupe);
+}
+
+/* Deux cartes cote a cote sur grand ecran, l'une sous l'autre sinon. */
+.stats-deux-colonnes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 0 28px;
+}
+
+/* --- Graphique en colonnes : chiffre d'affaires par mois --- */
+
+.graph-mois {
+    display: flex;
+    gap: 10px;
+    height: 240px;
+    padding-bottom: 26px; /* place des libelles de mois sous l'axe */
+}
+
+/* Graduations : alignees sur les lignes de la grille (5 lignes, 0 en bas). */
+.graph-mois-axe {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 44px;
+    margin: -7px 0 -7px; /* centre chaque nombre sur sa ligne */
+    font-size: 11px;
+    text-align: right;
+    color: var(--taupe);
+    font-variant-numeric: tabular-nums;
+}
+
+/* La zone porte la grille : 4 traits fins + la ligne de base, en fond. */
+.graph-mois-zone {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--ligne);
+    background-image: linear-gradient(to bottom, var(--pierre) 1px, transparent 1px);
+    background-size: 100% 25%;
+}
+
+/* Une colonne = tout le creneau du mois : la zone de survol est bien plus
+   grande que la barre elle-meme, plus facile a viser. */
+.graph-mois-colonne {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    outline: none;
+    cursor: default;
+}
+
+.graph-mois-piste {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+/* Barre fine (24px max), coins arrondis en haut seulement : elle part de
+   la ligne de base. */
+.graph-mois-barre {
+    width: 60%;
+    max-width: 24px;
+    min-height: 0;
+    background-color: var(--rouge);
+    border-radius: 4px 4px 0 0;
+}
+
+.graph-mois-colonne:hover .graph-mois-barre,
+.graph-mois-colonne:focus-visible .graph-mois-barre {
+    background-color: var(--encre);
+}
+
+.graph-mois-colonne:focus-visible {
+    box-shadow: 0 0 0 2px var(--encre);
+    border-radius: 4px;
+}
+
+/* Valeur du meilleur mois, posee sur le haut de sa barre. */
+.graph-mois-valeur {
+    position: absolute;
+    left: 50%;
+    margin-bottom: 4px;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.graph-mois-libelle {
+    position: absolute;
+    bottom: -22px;
+    left: 0;
+    right: 0;
+    font-size: 11px;
+    text-align: center;
+    color: var(--taupe);
+}
+
+/* Infobulle : montree au survol ou au focus clavier. */
+.graph-infobulle {
+    display: none;
+    position: absolute;
+    bottom: calc(100% - 30px);
+    left: 50%;
+    z-index: 2;
+    transform: translateX(-50%);
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: nowrap;
+    color: var(--creme);
+    background-color: var(--encre);
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.graph-mois-colonne:hover .graph-infobulle,
+.graph-mois-colonne:focus-visible .graph-infobulle {
+    display: block;
+}
+
+.stats-tableau-repli {
+    margin-top: 18px;
+    font-size: 13px;
+}
+
+.stats-tableau-repli summary {
+    cursor: pointer;
+    color: var(--taupe);
+}
+
+/* --- Barres horizontales : categories, tailles, produits --- */
+
+.barre-horizontale {
+    display: inline-block;
+    width: 80px;
+    height: 8px;
+    margin-right: 8px;
+    vertical-align: middle;
+    background-color: var(--pierre); /* piste : la longueur totale possible */
+    border-radius: 0 4px 4px 0;
+}
+
+.barre-horizontale-remplie {
+    display: block;
+    height: 100%;
+    background-color: var(--rouge);
+    border-radius: 0 4px 4px 0;
+}
+
+.stats-ligne-barre {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--pierre);
+}
+
+.stats-ligne-barre:last-child {
+    border-bottom: none;
+}
+
+.stats-ligne-barre .barre-horizontale {
+    width: 100%;
+    margin: 0;
+}
+
+.stats-ligne-barre-valeur {
+    font-weight: bold;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.stats-classement td {
+    font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 560px) {
+    .stats-deux-colonnes {
+        grid-template-columns: 1fr;
+    }
+
+    .graph-mois-axe {
+        min-width: 34px;
+    }
+
+    .stats-ligne-barre {
+        grid-template-columns: 80px 1fr auto;
+    }
+}
+
+/* Unite d'un montant dans une carte de statistique : plus petite que le
+   nombre, pour que "1234.50 CHF" tienne sur une ligne. */
+.stat-carte .stat-unite {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-size: 14px;
+    color: var(--taupe);
+}
+
+.stats-grille-large {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.stats-grille-large .stat-valeur {
+    white-space: nowrap;
+}
+
+/* Colonnes du bord : l'infobulle s'aligne vers l'interieur pour ne pas
+   deborder de la carte. */
+.graph-mois-colonne:nth-child(-n+2) .graph-infobulle {
+    left: 0;
+    transform: none;
+}
+
+.graph-mois-colonne:nth-last-child(-n+2) .graph-infobulle {
+    left: auto;
+    right: 0;
+    transform: none;
+}
+
+/* Mes commandes : date du dernier changement de statut, sous le badge */
+.commande-maj {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--taupe);
+}
+
+/* =====================================================================
+   CONTACT (contact.php) ET MESSAGES (administration/messages.php)
+   ===================================================================== */
+
+/* Page publique : texte d'introduction a gauche, formulaire a droite ;
+   l'un sous l'autre sur mobile. */
+.page-contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 50px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px 70px;
+}
+
+.contact-infos {
+    margin: 26px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.contact-infos li {
+    padding: 14px 0;
+    font-size: 14px;
+    line-height: 1.6;
+    border-top: 1px solid var(--ligne);
+}
+
+.contact-formulaire .formulaire {
+    max-width: none;
+}
+
+.contact-formulaire textarea {
+    resize: vertical;
+}
+
+/* Champ piege anti-robot : sorti de l'ecran plutot que display:none,
+   que certains robots savent reperer. */
+.champ-piege {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+@media (max-width: 800px) {
+    .page-contact {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding-top: 24px;
+    }
+}
+
+/* Pastille du menu admin : nombre de messages non lus. */
+.admin-nav-pastille {
+    margin-left: auto;
+    min-width: 20px;
+    padding: 1px 7px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 18px;
+    text-align: center;
+    color: #FFFFFF;
+    background-color: var(--rouge);
+    border-radius: 999px;
+}
+
+.admin-nav-lien-actif .admin-nav-pastille {
+    color: var(--rouge);
+    background-color: #FFFFFF;
+}
+
+/* Statuts d'un message (meme principe que les commandes). */
+.badge-message-nouveau {
+    background-color: var(--rose);
+    color: var(--rouge);
+}
+
+.badge-message-lu {
+    background-color: #F4E6C8;
+    color: #8A6414;
+}
+
+.badge-message-traite {
+    background-color: #DCE3D3;
+    color: #5B7A4B;
+}
+
+/* Message pas encore ouvert : ligne en gras dans la liste. */
+.message-non-lu td {
+    font-weight: bold;
+}
+
+.tableau-messages td {
+    vertical-align: top;
+}
+
+.tableau-detail {
+    font-size: 12px;
+    font-weight: normal;
+    color: var(--taupe);
+}
+
+.message-apercu {
+    max-width: 380px;
+    color: var(--taupe);
+}
+
+/* Detail : le message a gauche, l'expediteur et les actions a droite. */
+.message-grille {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+    gap: 0 28px;
+    align-items: start;
+}
+
+.message-texte {
+    margin: 14px 0 0;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-wrap: anywhere; /* une longue adresse web ne deborde pas */
+}
+
+.message-auteur {
+    margin: 14px 0 22px;
+}
+
+.message-auteur dt {
+    margin-top: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--taupe);
+}
+
+.message-auteur dd {
+    margin: 3px 0 0;
+    overflow-wrap: anywhere;
+}
+
+.message-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message-actions .bouton,
+.message-actions .bouton-secondaire {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    text-decoration: none; /* le bouton "Repondre" est un lien mailto: */
+}
+
+@media (max-width: 900px) {
+    .message-grille {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =====================================================================
+   PAGES D'INFORMATION (pages-infos/ : livraison, retours...)
+   Complete les regles .page-info existantes (plus haut). Les selecteurs
+   commencent par .page-info pour passer devant ".page-info p".
+   ===================================================================== */
+
+.page-info .page-info-surtitre {
+    margin: 0 0 6px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--rouge);
+}
+
+.page-info .page-info-intro {
+    margin: 10px 0 30px;
+    font-size: 17px;
+    color: var(--taupe);
+}
+
+.page-info-section {
+    padding: 26px 0 4px;
+    border-top: 1px solid var(--ligne);
+}
+
+.page-info-section h2 {
+    margin: 0 0 10px;
+    font-size: 19px;
+}
+
+.page-info a:not(.bouton) {
+    color: var(--encre);
+    text-decoration-color: var(--rouge);
+    text-underline-offset: 3px;
+}
+
+.page-info a:not(.bouton):hover {
+    color: var(--rouge);
+}
+
+.page-info-liste,
+.page-info-etapes {
+    margin: 0 0 18px;
+    padding-left: 22px;
+}
+
+.page-info .page-info-liste li,
+.page-info .page-info-etapes li {
+    margin-bottom: 8px;
+}
+
+/* Les trois modes de livraison, cote a cote (empiles sur mobile). */
+.livraison-modes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 34px;
+}
+
+.livraison-mode {
+    padding: 20px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--ligne);
+    border-radius: 8px;
+}
+
+.livraison-mode h2 {
+    margin: 0;
+    font-size: 15px;
+}
+
+.page-info .livraison-mode-prix {
+    color: var(--encre);
+    margin: 8px 0 0;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 26px;
+    line-height: 1.2;
+}
+
+.page-info .livraison-mode-delai {
+    margin: 2px 0 12px;
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--rouge);
+}
+
+.page-info .livraison-mode p:last-child {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--taupe);
+}
+
+/* Encadre final : la suite logique (nous contacter, demander un retour). */
+.page-info-aide {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 30px;
+    padding: 22px 24px;
+    background-color: var(--pierre);
+    border-radius: 8px;
+}
+
+.page-info .page-info-aide p {
+    margin: 0;
+    font-weight: bold;
+}
+
+.page-info-aide .bouton {
+    width: auto;
+    margin: 0;
+    text-decoration: none;
+}
+
+/* Fiche d'identite (mentions legales) : intitule a gauche, valeur a droite. */
+.page-info-fiche {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 8px 20px;
+    margin: 0 0 18px;
+    font-size: 15px;
+}
+
+.page-info-fiche dt {
+    font-weight: bold;
+    color: var(--encre);
+}
+
+.page-info-fiche dd {
+    margin: 0;
+    color: var(--taupe);
+}
+
+.page-info .page-info-maj {
+    margin-top: 24px;
+    font-size: 13px;
+    font-style: italic;
+}
+
+@media (max-width: 560px) {
+    .page-info-fiche {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .page-info-fiche dd {
+        margin-bottom: 10px;
+    }
+}
+
+/* Reponse deja envoyee au client, sous son message (detail admin). */
+.message-reponse {
+    margin-top: 22px;
+    padding: 16px 18px;
+    background-color: var(--creme);
+    border-left: 3px solid var(--rouge);
+    border-radius: 0 6px 6px 0;
+}
+
+.message-reponse-titre {
+    margin: 0;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--taupe);
+}
+
+.message-reponse .message-texte {
+    margin-top: 8px;
+}
+
+/* ---------------------------------------------------------------------
+   Recherche dans la liste des produits (administration, tache 18)
+   --------------------------------------------------------------------- */
+
+.recherche-produits {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 560px;
+    margin-bottom: 20px;
+}
+
+/* flex: 1 : le champ prend toute la place laissee par le bouton. */
+.recherche-produits input {
+    flex: 1;
+}
+
+.recherche-produits .bouton-secondaire {
+    flex-shrink: 0;
+}
+
+.recherche-resultat {
+    margin: -8px 0 16px;
+    font-size: 13px;
+    color: var(--taupe);
+}

@@ -1,0 +1,386 @@
+/* =====================================================================
+   POMODORO STORE - Page d'accueil
+   Sections plein ecran avec revelations au scroll (inspiration Rolex).
+   Repose sur les variables de couleur definies dans pomodoro.css.
+   ===================================================================== */
+
+.corps-accueil {
+    background-color: var(--creme);
+}
+
+/* ---------------------------------------------------------------------
+   NAVIGATION - transparente sur la video, pleine des qu'on quitte le hero
+   --------------------------------------------------------------------- */
+
+.accueil-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 40px;
+    color: var(--creme);
+    background-color: transparent;
+    transition: background-color .35s ease, color .35s ease, box-shadow .35s ease;
+}
+
+.accueil-nav-solide {
+    background-color: var(--creme);
+    color: var(--encre);
+    box-shadow: 0 1px 0 var(--ligne);
+}
+
+.accueil-nav-logo {
+    margin: 0;
+    font-size: 30px;
+    color: inherit;
+}
+
+.accueil-nav-liens {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.accueil-nav-liens a {
+    color: inherit;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    text-decoration: none;
+}
+
+.accueil-nav-liens a:hover {
+    color: var(--rouge);
+}
+
+/* ---------------------------------------------------------------------
+   HERO - video plein ecran
+   --------------------------------------------------------------------- */
+
+.accueil-hero {
+    position: relative;
+    height: 100vh;
+    min-height: 480px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--creme);
+    background-color: var(--encre);
+}
+
+.accueil-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.accueil-hero-voile {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(34, 30, 25, .32) 0%, rgba(34, 30, 25, .48) 100%);
+}
+
+.accueil-hero-contenu {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(18px);
+    animation: accueil-apparition .9s ease .25s forwards;
+}
+
+.accueil-hero-titre {
+    margin: 0;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+    font-size: clamp(60px, 11vw, 130px);
+}
+
+.accueil-hero-accroche {
+    margin: 14px 0 0;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: clamp(15px, 2vw, 20px);
+}
+
+.accueil-scroll-cue {
+    position: absolute;
+    bottom: 34px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: var(--creme);
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    text-decoration: none;
+    opacity: 0;
+    animation: accueil-apparition .9s ease .9s forwards;
+}
+
+.accueil-scroll-cue-trait {
+    width: 1px;
+    height: 34px;
+    background-color: currentColor;
+    opacity: .8;
+    animation: accueil-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes accueil-apparition {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes accueil-pulse {
+    0%, 100% { transform: scaleY(1); opacity: .5; }
+    50% { transform: scaleY(1.25); opacity: 1; }
+}
+
+/* ---------------------------------------------------------------------
+   SECTION TEXTE (manifeste)
+   --------------------------------------------------------------------- */
+
+.accueil-texte {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 140px 24px;
+    text-align: center;
+}
+
+.accueil-eyebrow {
+    margin: 0 0 14px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--rouge);
+}
+
+.accueil-texte-titre {
+    margin: 0 0 22px;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: clamp(26px, 4vw, 40px);
+    color: var(--encre);
+}
+
+.accueil-texte-corps {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--taupe);
+}
+
+/* ---------------------------------------------------------------------
+   SECTIONS VISUELLES - image + texte en alternance
+   --------------------------------------------------------------------- */
+
+.accueil-visuel {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    min-height: 100vh;
+}
+
+.accueil-visuel-image-cadre {
+    grid-column: 1;
+    grid-row: 1;
+    position: relative;
+    overflow: hidden;
+    min-height: 60vh;
+}
+
+.accueil-visuel-texte {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 18px;
+    padding: 60px;
+    background-color: var(--pierre);
+}
+
+.accueil-visuel[data-sens="inverse"] .accueil-visuel-image-cadre {
+    grid-column: 2;
+}
+
+.accueil-visuel[data-sens="inverse"] .accueil-visuel-texte {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.accueil-visuel-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.1);
+    transition: transform 1.4s cubic-bezier(.22, 1, .36, 1);
+}
+
+.accueil-reveal.en-vue .accueil-visuel-image {
+    transform: scale(1);
+}
+
+.accueil-visuel-texte h2 {
+    margin: 0;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: clamp(28px, 3.2vw, 40px);
+    color: var(--encre);
+}
+
+.accueil-visuel-texte p {
+    margin: 0;
+    max-width: 380px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--taupe);
+}
+
+.accueil-cta {
+    display: inline-block;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--encre);
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: var(--encre);
+    text-decoration: none;
+    transition: color .25s ease, border-color .25s ease;
+}
+
+.accueil-cta:hover {
+    color: var(--rouge);
+    border-color: var(--rouge);
+}
+
+/* ---------------------------------------------------------------------
+   CLOTURE
+   --------------------------------------------------------------------- */
+
+.accueil-cloture {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 60px 24px;
+    text-align: center;
+    background-color: var(--encre);
+    color: var(--creme);
+}
+
+.accueil-cloture h2 {
+    margin: 0;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: clamp(32px, 5vw, 54px);
+}
+
+.accueil-cloture-bouton {
+    display: inline-block;
+    padding: 16px 38px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    text-decoration: none;
+    background-color: var(--creme);
+    color: var(--encre);
+    transition: background-color .25s ease, color .25s ease;
+}
+
+.accueil-cloture-bouton:hover {
+    background-color: var(--rouge);
+    color: var(--creme);
+}
+
+/* ---------------------------------------------------------------------
+   REVELATIONS AU SCROLL
+   --------------------------------------------------------------------- */
+
+.accueil-reveal-enfant {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .8s ease, transform .8s cubic-bezier(.22, 1, .36, 1);
+}
+
+.accueil-reveal.en-vue .accueil-reveal-enfant {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.accueil-texte.accueil-reveal .accueil-reveal-enfant:nth-child(1) { transition-delay: 0s; }
+.accueil-texte.accueil-reveal .accueil-reveal-enfant:nth-child(2) { transition-delay: .12s; }
+.accueil-texte.accueil-reveal .accueil-reveal-enfant:nth-child(3) { transition-delay: .24s; }
+
+.accueil-visuel-texte.accueil-reveal-enfant > * + * {
+    transition-delay: .1s;
+}
+
+.accueil-cloture.accueil-reveal .accueil-reveal-enfant:nth-child(2) {
+    transition-delay: .15s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .accueil-hero-contenu,
+    .accueil-scroll-cue,
+    .accueil-reveal-enfant,
+    .accueil-visuel-image {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* ---------------------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+    .accueil-nav {
+        padding: 18px 20px;
+    }
+
+    .accueil-visuel {
+        grid-template-columns: 1fr;
+    }
+
+    .accueil-visuel-image-cadre,
+    .accueil-visuel[data-sens="inverse"] .accueil-visuel-image-cadre {
+        grid-column: 1;
+        grid-row: 1;
+        min-height: 55vh;
+    }
+
+    .accueil-visuel-texte,
+    .accueil-visuel[data-sens="inverse"] .accueil-visuel-texte {
+        grid-column: 1;
+        grid-row: 2;
+        padding: 44px 24px;
+    }
+
+    .accueil-texte {
+        padding: 90px 22px;
+    }
+}

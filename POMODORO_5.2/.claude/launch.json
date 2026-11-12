@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "pomodoro",
+      "runtimeExecutable": "C:/wamp64/bin/php/php8.1.0/php.exe",
+      "runtimeArgs": ["-S", "localhost:8000", "-t", "front-end"],
+      "port": 8000
+    }
+  ]
+}

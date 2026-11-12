@@ -1,0 +1,49 @@
+# Système
+.DS_Store
+Thumbs.db
+
+# Environnement
+.env
+.env.local
+.env.*.local
+
+
+# Node.js (si tu utilises npm/yarn)
+node_modules/
+package-lock.json
+yarn.lock
+dist/
+build/
+
+# PHP
+vendor/
+composer.lock
+
+# Logs
+*.log
+npm-debug.log*
+
+# Éditeurs & IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# Fichiers temporaires
+.tmp/
+temp/
+cache/
+
+# Config sensible : identifiants propres a chaque machine.
+# Le modele a copier est back-end/connexion-base-de-donnees.exemple.php,
+# lui versionne.
+back-end/connexion-base-de-donnees.php
+# Idem pour la cle API Brevo (modele : back-end/config-brevo.exemple.php).
+back-end/config-brevo.php
+# Idem pour la cle secrete Stripe (modele : back-end/config-stripe.exemple.php).
+back-end/config-stripe.php
+
+# Sauvegardes d'editeur SQL
+*.~sql
