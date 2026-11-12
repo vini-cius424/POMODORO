@@ -38,32 +38,33 @@ silencieusement**. Vérifier avec `SELECT VERSION();`.
    `base-de-donnees/POMODORO - ID04 - CreationTables.sql`.
    Le script est rejouable : il supprime les tables existantes avant de les recréer.
 
-2. **Configurer la connexion**
+2. **Créer le fichier `.env` (secrets)**
 
    ```bash
-   cp back-end/connexion-base-de-donnees.exemple.php back-end/connexion-base-de-donnees.php
+   cp .env.exemple .env
    ```
 
-   Puis ajuster l'hôte, le port, l'utilisateur et le mot de passe dans le fichier
-   copié. Ce fichier n'est pas versionné : il contient les identifiants de la
-   machine sur laquelle le site tourne.
+   Tous les secrets du site sont dans ce seul fichier, à la racine du projet :
+   identifiants de la base, clé API Brevo, clé secrète Stripe. Chaque réglage est
+   expliqué dans `.env.exemple`.
 
-   Sous WAMP, attention au port : MariaDB écoute souvent sur **3307** tandis que
-   MySQL occupe le 3306.
+   **Le `.env` n'est jamais versionné** (il est dans le `.gitignore`) et se trouve
+   hors de `front-end/`, donc aucune URL ne permet de le lire. Seul le modèle
+   `.env.exemple`, sans aucune vraie valeur, est dans le dépôt.
 
-3. **Configurer Brevo (emails)** — facultatif
+   - **Base de données** : ajuster `DB_HOTE`, `DB_PORT`, `DB_UTILISATEUR`,
+     `DB_MOT_DE_PASSE`. Sous WAMP, attention au port : MariaDB écoute souvent sur
+     **3307** tandis que MySQL occupe le 3306.
+   - **Brevo (emails)** — facultatif : `BREVO_CLE_API`, l'adresse d'expéditeur
+     validée dans Brevo et, pour la newsletter, l'ID de la liste et du modèle
+     « double opt-in ». Sans clé, le site fonctionne quand même : les comptes sont
+     confirmés dès l'inscription et la newsletter est indiquée comme indisponible.
+   - **Stripe (paiement)** — facultatif : `STRIPE_CLE_SECRETE`, en mode test
+     uniquement (`sk_test_…`). Sans clé, la commande est enregistrée sans paiement.
 
-   ```bash
-   cp back-end/config-brevo.exemple.php back-end/config-brevo.php
-   ```
-
-   Puis y mettre la clé API Brevo, l'adresse d'expéditeur validée dans
-   Brevo, et pour la newsletter l'ID de la liste et du modèle « double
-   opt-in ». Chaque réglage est expliqué dans le fichier. Comme la connexion
-   à la base, ce fichier n'est pas versionné.
-
-   Sans lui, le site fonctionne quand même : les comptes sont confirmés dès
-   l'inscription et la newsletter est indiquée comme indisponible.
+   Si une clé a été commitée par erreur, la supprimer du dépôt ne suffit pas :
+   elle reste dans l'historique git. Il faut la **révoquer** chez Brevo ou Stripe
+   et en générer une nouvelle.
 
 4. **Créer un compte administrateur**
 
@@ -93,7 +94,8 @@ back-end/                     le traitement : aucune ligne de HTML
   classes/                    classes métier, une par table (Active Record)
   fonctions/                  couleurs, icônes, filtres de la boutique
   securite/                   gardes d'accès admin et client
-  connexion-base-de-donnees.php   connexion PDO (non versionnée)
+  connexion-base-de-donnees.php   connexion PDO (identifiants lus dans le .env)
+  fonctions/env.php           lecture du fichier .env
   creer-admin.php             script en ligne de commande
 
 front-end/                    l'affichage : c'est la racine web

@@ -19,29 +19,35 @@
 
 require_once __DIR__ . '/../classes/Client.php';
 require_once __DIR__ . '/../classes/Commande.php'; // code promo de bienvenue
+require_once __DIR__ . '/env.php';
 
-// Lit back-end/config-brevo.php une seule fois (static : la valeur est
-// gardee entre deux appels). null si le fichier n'existe pas.
+// Lit les reglages Brevo dans le .env une seule fois (static : la valeur
+// est gardee entre deux appels). Voir .env.exemple pour chaque reglage.
 function brevo_config()
 {
-    static $config = false;
+    static $config = null;
 
-    if ($config === false) {
-        $fichier = __DIR__ . '/../config-brevo.php';
-        $config = file_exists($fichier) ? require $fichier : null;
-
-        // Une cle collee avec un retour a la ligne ou un espace est refusee
-        // par Brevo : on retire ces caracteres, qui n'en font jamais partie.
-        if ($config !== null) {
-            $config['cle_api'] = preg_replace('/\s+/', '', $config['cle_api']);
-        }
+    if ($config === null) {
+        $config = [
+            // Une cle collee avec un espace ou un retour a la ligne est
+            // refusee par Brevo : on retire ces caracteres, qui n'en font
+            // jamais partie.
+            'cle_api'             => preg_replace('/\s+/', '', env('BREVO_CLE_API')),
+            'expediteur_email'    => env('BREVO_EXPEDITEUR_EMAIL'),
+            'expediteur_nom'      => env('BREVO_EXPEDITEUR_NOM', 'Pomodoro Store'),
+            'email_notifications' => env('BREVO_EMAIL_NOTIFICATIONS'),
+            'liste_newsletter'    => (int) env('BREVO_LISTE_NEWSLETTER', '0'),
+            'modele_double_optin' => (int) env('BREVO_MODELE_DOUBLE_OPTIN', '0'),
+            'url_site'            => rtrim(env('URL_SITE', 'http://localhost:8000'), '/'),
+            'certificats'         => env('CERTIFICATS'),
+        ];
     }
 
     return $config;
 }
 
-// Brevo est-il utilisable sur ce poste ? Sans cle, la confirmation
-// d'email est desactivee (voir config-brevo.exemple.php).
+// Brevo est-il utilisable sur ce poste ? Sans cle dans le .env, la
+// confirmation d'email est desactivee (voir .env.exemple).
 function brevo_est_configure()
 {
     $config = brevo_config();
@@ -407,7 +413,7 @@ HTML;
 }
 
 // Notification a la boutique : un client vient d'ecrire avec le
-// formulaire de contact. Envoyee a 'email_notifications' (config-brevo.php,
+// formulaire de contact. Envoyee a BREVO_EMAIL_NOTIFICATIONS (.env,
 // a defaut l'adresse expediteur). "replyTo" = l'email du client : cliquer
 // sur "Repondre" dans la messagerie lui repond directement.
 // Le message est deja enregistre en base avant l'appel : si l'email ne

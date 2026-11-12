@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $reponse = trim($_POST['reponse'] ?? '');
 
     if (!brevo_est_configure()) {
-        $erreur = "L'envoi d'emails n'est pas configuré sur ce poste (config-brevo.php).";
+        $erreur = "L'envoi d'emails n'est pas configuré sur ce poste (BREVO_CLE_API vide dans le .env).";
     } elseif ($objet === '' || mb_strlen($objet) > 150) {
         $erreur = "Indiquez un objet (150 caractères au maximum).";
     } elseif (mb_strlen($reponse) < 10) {

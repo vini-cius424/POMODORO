@@ -19,6 +19,15 @@
 # =====================================================================
 
 
+# Ceinture et bretelles : refuse tout fichier qui commence par un point
+# (.env, .git, .htaccess...). Le .env contient les cles API et le mot de
+# passe de la base ; meme si la reecriture ci-dessous etait desactivee,
+# il ne doit jamais etre telechargeable.
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+RedirectMatch 404 /\.git
+
 # Active le module de reecriture (mod_rewrite).
 RewriteEngine On
 

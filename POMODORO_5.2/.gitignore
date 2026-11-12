@@ -36,14 +36,16 @@ npm-debug.log*
 temp/
 cache/
 
-# Config sensible : identifiants propres a chaque machine.
-# Le modele a copier est back-end/connexion-base-de-donnees.exemple.php,
-# lui versionne.
-back-end/connexion-base-de-donnees.php
-# Idem pour la cle API Brevo (modele : back-end/config-brevo.exemple.php).
-back-end/config-brevo.php
-# Idem pour la cle secrete Stripe (modele : back-end/config-stripe.exemple.php).
-back-end/config-stripe.php
+# Secrets : tout est dans le .env (ignore plus haut), le modele a copier
+# est .env.exemple, lui versionne. On garde .env.exemple meme si une
+# regle plus large venait a l'attraper.
+!.env.exemple
+
+# Anciens fichiers de config (avant le .env). Ignores PARTOUT dans le
+# projet, pas seulement dans back-end/ : une copie posee a la racine a
+# deja fini dans un commit avec les vraies cles.
+config-brevo.php
+config-stripe.php
 
 # Sauvegardes d'editeur SQL
 *.~sql

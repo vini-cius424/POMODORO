@@ -20,15 +20,21 @@
 //  - cURL en PHP      : https://www.php.net/manual/fr/book.curl.php
 // =====================================================================
 
-// Lit back-end/config-stripe.php une seule fois (static : la valeur est
-// gardee entre deux appels). null si le fichier n'existe pas.
+require_once __DIR__ . '/env.php';
+
+// Lit les reglages Stripe dans le .env une seule fois (static : la valeur
+// est gardee entre deux appels). Voir .env.exemple pour chaque reglage.
 function stripe_config()
 {
-    static $config = false;
+    static $config = null;
 
-    if ($config === false) {
-        $fichier = __DIR__ . '/../config-stripe.php';
-        $config = file_exists($fichier) ? require $fichier : null;
+    if ($config === null) {
+        $config = [
+            'cle_secrete' => preg_replace('/\s+/', '', env('STRIPE_CLE_SECRETE')),
+            'devise'      => strtolower(env('STRIPE_DEVISE', 'chf')),
+            'url_site'    => rtrim(env('URL_SITE', 'http://localhost:8000'), '/'),
+            'certificats' => env('CERTIFICATS'),
+        ];
     }
 
     return $config;
